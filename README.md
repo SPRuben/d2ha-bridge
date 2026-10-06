@@ -22,7 +22,7 @@ An already installed local app should stay local for this update; switching it t
 
 Requires Home Assistant OS with Supervisor/app store, administrator access, `amd64` or `aarch64`, your compatible Dovit TCP/XML endpoint, and an MQTT broker connected to HA's MQTT integration. HA Container does not provide this installation route.
 
-[Add repository to Home Assistant](https://my.home-assistant.io/redirect/supervisor_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2FSPRuben%2Fd2ha-bridge)
+[Installation guide for Home Assistant](dovit_bridge/DOCS.md)
 
 1. Open **Settings → Apps → App store → ⋮ → Repositories**. Older HA versions call apps “add-ons”.
 2. Add `https://github.com/SPRuben/d2ha-bridge` and refresh the store.
