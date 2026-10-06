@@ -1,0 +1,76 @@
+Dovit Bridge Noncommercial Unmodified Use License 1.0
+
+Copyright (c) 2026 SPRuben. All rights reserved except as expressly granted below.
+
+1. Scope and free permission
+
+This license applies to the original Dovit Bridge source code, documentation
+and assets in this repository (the Software), excluding third-party components.
+Anyone may download, copy, build, install and run the unmodified Software free
+of charge solely for noncommercial purposes, subject to these terms.
+
+Copies of the unmodified Software may be shared free of charge for
+noncommercial purposes, provided this license and all copyright notices are
+preserved. No broader rights are granted by this permission.
+
+2. Configuration is allowed
+
+Building the supplied Docker image, installing dependencies, and using the
+documented configuration options, device mappings and Home Assistant/MQTT
+settings do not count as modifying the Software. Users may create and change
+their own configuration and device data. This license claims no ownership of
+user-created configuration or device data.
+
+3. Changes require prior permission
+
+Modifying, adapting, translating or creating derivative versions of the
+Software requires prior written permission from the copyright holder.
+This applies to private changes as well as changes that would be distributed.
+It does not restrict configuration as permitted by section 2, separately
+licensed third-party components, or rights that cannot legally be restricted.
+
+4. Commercial use requires a separate paid agreement
+
+No commercial use is permitted under this license without prior written
+permission and a separate agreement with the copyright holder that specifies
+the permitted use and compensation. Commercial use includes selling or
+licensing the Software, using it as part of a paid product or service,
+commercial installation or maintenance services involving the Software,
+and using the Software in a business for business operations or commercial
+advantage. A company may not treat internal business use as noncommercial
+merely because it does not distribute the Software.
+
+This license sets no automatic fee or royalty. Compensation and other
+commercial terms must be agreed in writing before commercial use begins.
+
+5. Rights retained and platform rights
+
+The copyright holder retains ownership. No trademark rights, sublicensing
+rights, or permission to remove notices are granted. Rights required by
+applicable law, and GitHub platform rights to view and fork a public repository
+under GitHub's terms, are unaffected. GitHub's terms separately grant GitHub
+and its affiliates platform rights, including rights to train AI models,
+without compensation under those platform terms. This license does not
+override those terms or promise payment for platform rights. A public GitHub
+repository is not a
+technical restriction on copying. Viewing or forking does not grant the
+commercial or modification permissions reserved above beyond platform rights.
+
+6. No warranty
+
+To the extent permitted by applicable law, the Software is provided as is,
+without warranties of any kind, and the copyright holder is not liable for
+loss or damage arising from its use. Nothing in this license excludes
+liability or statutory rights that cannot lawfully be excluded.
+
+7. Permission requests
+
+Contact the maintainer through https://github.com/SPRuben/dovit-bridge/issues
+to request a way to discuss written modification permission or a commercial
+agreement. Do not post passwords, device data or confidential commercial
+details in public issues. No response or informal discussion grants permission;
+permission must be expressly given in writing by the copyright holder.
+
+This is a custom source-available license. It is not the MIT license or an
+OSI-approved open-source license. Third-party components retain their own
+licenses and are not relicensed by this file.

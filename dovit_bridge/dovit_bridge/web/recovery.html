@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="de">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Dovit Bridge Recovery</title><link rel="stylesheet" href="recovery.css"></head>
+<body><header><strong>Dovit Bridge</strong><label><span data-text="language"></span><select id="language"><option value="de">Deutsch</option><option value="fr">Français</option></select></label></header>
+<main><p class="eyebrow" data-text="eyebrow"></p><h1 data-text="title"></h1><p data-text="intro"></p>
+<p data-text="inactive"></p><p id="current-state"></p>
+<p id="status" role="status" aria-live="polite" tabindex="-1"></p>
+<section id="sources"><h2 data-text="source"></h2>
+<button id="new-install" type="button" data-text="new_install" hidden disabled></button><p id="new-install-hint" data-text="new_install_hint" hidden></p>
+<label><span data-text="backup"></span><select id="backup"><option value="" data-text="own"></option></select></label>
+<label><span data-text="file"></span><input id="file" type="file" accept=".json,application/json" aria-describedby="file-hint"></label><p id="file-hint" data-text="file_hint"></p>
+<label><span data-text="document"></span><textarea id="document" spellcheck="false" rows="10"></textarea></label>
+<button id="validate" type="button" data-text="validate" disabled></button></section>
+<section id="review" hidden aria-labelledby="review-title"><h2 id="review-title" data-text="review" tabindex="-1"></h2><div id="summary"></div>
+<label class="check"><input id="confirm" type="checkbox"><span data-text="confirm"></span></label>
+<label id="alarm-row" class="check" hidden><input id="confirm-alarm" type="checkbox"><span data-text="alarm"></span></label>
+<label id="empty-row" class="check" hidden><input id="confirm-empty" type="checkbox"><span data-text="empty"></span></label>
+<button id="apply" type="button" data-text="apply" disabled></button></section>
+<section id="restart" hidden><h2 id="restart-title" data-text="restart_title" tabindex="-1"></h2><p data-text="restart"></p></section>
+</main><script src="recovery.js"></script></body></html>

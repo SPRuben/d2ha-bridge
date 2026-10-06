@@ -1,0 +1,4 @@
+# Preserve the verified release bytes in Git and source-build checkouts.
+* -text
+*.jpg binary
+*.png binary

@@ -1,0 +1,16 @@
+__pycache__
+**/__pycache__
+*.pyc
+**/*.pyc
+tests
+integration_tests
+*.log
+preview_monitor.py
+.git
+*.pending.json
+dovit_setup.json
+dovit_setup_backups
+dovit_device_backups
+dovit_observed_candidates.json
+dovit_cover_positions.json
+options.json
