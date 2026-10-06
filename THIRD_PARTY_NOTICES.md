@@ -1,6 +1,6 @@
 # Third-party components
 
-The custom Dovit Bridge license applies only to the project's original files.
+The custom D2HA Bridge license applies only to the project's original files.
 It does not replace the licenses of dependencies or container components.
 
 - **Eclipse Paho MQTT Python 2.1.0** is installed from PyPI when the Docker image

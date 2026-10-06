@@ -1,10 +1,12 @@
-# Entwicklerhandbuch - Dovit Bridge
+# Entwicklerhandbuch - D2HA Bridge
+
+**Namenswechsel:** Der öffentliche Produktname ist D2HA Bridge. Die installierbare Version 2.2 erscheint in HA weiterhin als **Dovit Bridge**; 3.0.0 ist noch nicht veröffentlicht. Die folgenden App-Menüpfade verwenden den Produktnamen. Bestehenden Repository-Eintrag, Installation, Optionen, Zuordnungen und MQTT-/HomeKit-Identitäten beibehalten. Die GitHub-Umbenennung benötigt keine Neuinstallation.
 
 Dieses Projekt verwendet eigene Source-Available-Nutzungsbedingungen. Änderungen
 am Programm, an Dokumenten oder Grafiken benötigen vorher die schriftliche
 Erlaubnis des Rechteinhabers, auch für private Änderungen. Kommerzielle Nutzung
 benötigt eine separate schriftliche Vereinbarung. Eigene Konfiguration und
-Gerätezuordnungen sind erlaubt. Lizenz: https://github.com/SPRuben/dovit-bridge/blob/main/LICENSE
+Gerätezuordnungen sind erlaubt. Lizenz: https://github.com/SPRuben/d2ha-bridge/blob/main/LICENSE
 
 ## Produktionsverhalten in 2.2 (eingeführt ab 2.0)
 
@@ -30,7 +32,7 @@ Handbücher und Build-Eingaben; Caches, Tests, private Einstellungen und Backups
 bleiben außerhalb des Build-Kontexts. `Dockerfile` ist die maßgebliche Basis,
 `build.yaml` nur die erhaltene Kompatibilitätskonfiguration.
 
-Öffentliche Installation und Grenzen: https://github.com/SPRuben/dovit-bridge/blob/main/dovit_bridge/DOCS.md
+Öffentliche Installation und Grenzen: https://github.com/SPRuben/d2ha-bridge/blob/main/dovit_bridge/DOCS.md
 Laufzeit- und Paketverifikation getrennt betrachten; frühere Tests sind in
 dovit_bridge/CHANGELOG.md zusammengefasst. Sie bestätigen keine reale Installation
 des öffentlichen Repositorys auf einem neuen HA-System und keine HomeKit-Abnahme.
@@ -106,7 +108,7 @@ löst keine solche Bereinigung aus.
 
 ## Version 1.17
 
-Historischer Ursprung dieser Funktionen: App-Name und panel_title sind Dovit Bridge;
+Historischer Ursprung dieser Funktionen: App-Name und panel_title wurden vereinheitlicht;
 slug bleibt local_dovit_bridge. Ingress und der ausschließlich Administratoren
 vorbehaltene Zugriff bleiben erhalten. Die Sichtbarkeit in der Seitenleiste ist
 eine Supervisor-Benutzereinstellung, kein config.yaml-Schalter: In HA

@@ -1,10 +1,12 @@
-# Guide utilisateur - Dovit Bridge
+# Guide utilisateur - D2HA Bridge
+
+**Changement de nom :** Le nom public du produit est D2HA Bridge. La version installable 2.2 apparaît encore dans HA sous **Dovit Bridge** ; 3.0.0 n’est pas publiée. Les chemins de menus ci-dessous utilisent le nom du produit. Conserver l’entrée du dépôt, l’installation, les options, les affectations et les identités MQTT/HomeKit existantes. Le renommage GitHub ne nécessite pas de réinstallation.
 
 Utilisation non commerciale du logiciel inchangé : gratuite. Les modifications
 du logiciel ou de ses documents et l’usage commercial exigent une permission
 écrite préalable ; les conditions commerciales sont convenues séparément.
 Vos propres réglages et affectations sont autorisés et restent vos données.
-Licence : https://github.com/SPRuben/dovit-bridge/blob/main/LICENSE
+Licence : https://github.com/SPRuben/d2ha-bridge/blob/main/LICENSE
 
 ## Découvrir 2.2 : Appareils, Configuration et Diagnostic
 
@@ -12,7 +14,7 @@ Ce guide décrit le code 2.2 dans le paquet public expérimental. Son installati
 depuis ce dépôt sur un nouveau HA et sa compatibilité avec d’autres installations
 Dovit ne sont pas encore confirmées en conditions réelles. Les anciennes notes
 sont conservées sous « Notes de versions historiques ».
-Guide d’installation : https://github.com/SPRuben/dovit-bridge/blob/main/dovit_bridge/DOCS.md
+Guide d’installation : https://github.com/SPRuben/d2ha-bridge/blob/main/dovit_bridge/DOCS.md
 
 Les illustrations proviennent de la prévisualisation 2.0 avec des appareils
 simulés et des données de test. Elles aident à se repérer et ne prouvent ni une
@@ -73,7 +75,7 @@ les données et options réellement utilisées.
 
 ### 1. Vérifier les prérequis
 
-Le chemin est : Dovit TCP/XML > Dovit Bridge > broker MQTT >
+Le chemin est : Dovit TCP/XML > D2HA Bridge > broker MQTT >
 intégration MQTT de Home Assistant > éventuellement HomeKit Bridge.
 
 - Une installation Dovit fonctionnelle avec accès TCP/XML joignable ; par exemple le port 6060 ; vérifier le port réel de votre installation. La compatibilité de tous les accès Dovit n’est pas garantie.
@@ -94,8 +96,8 @@ N’exposez pas les ports Dovit, MQTT ou de prévisualisation sur Internet.
 ### 2. Installer l’app et préparer MQTT
 
 1. Pour une installation existante, sauvegarder HA et le fichier actif d’appareils. Sauvegarder les fichiers réels avant remplacement, pas seulement la copie de développement locale.
-2. Dans Paramètres > Apps > Magasin d’apps > menu > Dépôts, ajouter https://github.com/SPRuben/dovit-bridge. Les anciennes versions de HA utilisent le terme « modules complémentaires ».
-3. Actualiser le magasin, choisir Dovit Bridge et installer. Architectures publiques : amd64/aarch64. Arrêter l’ancien pont local avant toute migration ; ne jamais démarrer les deux ensemble. Les paramètres privés /data ne sont pas transférés automatiquement dans l’app du dépôt.
+2. Dans Paramètres > Apps > Magasin d’apps > menu > Dépôts, ajouter https://github.com/SPRuben/d2ha-bridge. Les anciennes versions de HA utilisent le terme « modules complémentaires ».
+3. Actualiser le magasin, choisir D2HA Bridge et installer. Architectures publiques : amd64/aarch64. Arrêter l’ancien pont local avant toute migration ; ne jamais démarrer les deux ensemble. Les paramètres privés /data ne sont pas transférés automatiquement dans l’app du dépôt.
 4. Démarrer le broker et créer un utilisateur adapté à MQTT. Des exemples comme `mqtt-user` ne garantissent aucun accès.
 5. Dans Paramètres > Appareils et services, configurer l’intégration MQTT ou vérifier sa connexion. Le broker et l’intégration sont deux composants différents.
 
@@ -106,7 +108,7 @@ Documentation MQTT : https://www.home-assistant.io/integrations/mqtt
 
 ### 3. Définir les options de base avant le démarrage
 
-Ouvrir Paramètres > Apps > Dovit Bridge > Configuration. Les options
+Ouvrir Paramètres > Apps > D2HA Bridge > Configuration. Les options
 `devices_file`, `enable_discovery`, tests web réels, mode des volets et alarme
 restent ici. Elles ne vont ni dans le JSON des appareils ni dans
 `configuration.yaml` de HA ; l’assistant web ne les modifie pas.
@@ -188,7 +190,7 @@ Récupération : choisir votre propre source et la vérifier ; l’application v
 
 ### 5. Ouvrir la page et configurer en quatre étapes
 
-1. Dans les informations de l’app, activer « Afficher dans la barre latérale », puis ouvrir Dovit Bridge dans le menu HA ; sinon utiliser l’ouverture de l’interface web.
+1. Dans les informations de l’app, activer « Afficher dans la barre latérale », puis ouvrir D2HA Bridge dans le menu HA ; sinon utiliser l’ouverture de l’interface web.
 2. Choisir Deutsch ou Français. Le bouton **Guides** ouvre cette documentation sans accès Internet.
 3. Ouvrir **Configuration**. L’assistant charge les réglages enregistrés dans un brouillon local. **Connexion actuelle · lecture seule** décrit toujours le pont en cours, pas ce brouillon.
 
@@ -259,7 +261,7 @@ Exemple : identifier une lumière et la nommer « Bureau lumière ».
 4. Au signal choisi, sélectionner directement **Affecter un appareil**. Pour un appareil TODO déduit automatiquement, ouvrir plutôt l’engrenage **Gérer l’appareil**, puis **Modifier** ; cette affectation doit aussi être vérifiée.
 5. Choisir la catégorie **Éclairage** et un nom clair ; vérifier ID et type de signal à partir des observations, sans les deviner.
 6. Vérifier la modification, lire l'aperçu, confirmer et la préparer pour le prochain démarrage.
-7. Redémarrer volontairement Dovit Bridge. Le fichier précédent est sauvegardé et la modification revérifiée avant application.
+7. Redémarrer volontairement D2HA Bridge. Le fichier précédent est sauvegardé et la modification revérifiée avant application.
 8. Recharger la page et retrouver la lumière parmi les appareils connus ; avec publish_discovery activé, vérifier aussi HA sous MQTT.
 
 ![Vérifier l’affectation : récapitulatif lisible et confirmation](images/device-assignment-fr.jpg)
@@ -693,12 +695,12 @@ le pont HomeKit.
 
 **`publish_discovery`** peut être enregistré sous **Configuration → 4 ·
 Publication** pour le prochain redémarrage manuel. **`enable_discovery`** reste
-inchangé dans l’assistant et appartient à la **configuration de l’app Dovit Bridge
+inchangé dans l’assistant et appartient à la **configuration de l’app D2HA Bridge
 dans HA**. Ces options ne vont ni dans le JSON des appareils ni dans HomeKit.
 
 Les réglages web enregistrés prennent priorité sur la valeur
 `publish_discovery` de l’app ; les vérifier et les modifier volontairement sous
-**Configuration**. Redémarrer ensuite soi-même Dovit Bridge. Le récapitulatif
+**Configuration**. Redémarrer ensuite soi-même D2HA Bridge. Le récapitulatif
 sépare votre choix de publication, la recherche automatique inchangée et le
 résultat prévu. Il ne confirme ni une connexion réussie ni la réception dans HA.
 Ces exemples expliquent des paramètres, pas une demande d’actionner des
@@ -746,8 +748,8 @@ réellement installée dans HA. Utiliser le guide ci-dessus pour le parcours act
 
 ### Nouveautés de la version 1.17
 
-L’application s’appelle désormais Dovit Bridge. Son identifiant reste inchangé :
-aucune seconde passerelle ni nouvelle identité MQTT/HomeKit.
+Historiquement, le nom de l’app et le titre de la barre latérale ont été unifiés.
+Le nom actuel du produit, D2HA Bridge, est prévu dans l’app à partir de 3.0.0.
 
 L’indicateur vert signifie Dovit connecté, orange interface accessible mais
 Dovit déconnecté, rouge absence de données récentes provenant du pont.
@@ -781,8 +783,8 @@ le signale dans covers_reset_to_legacy. Limite : 256 Kio. Aucune commande physiq
 
 ### Accès direct dans Home Assistant
 
-Après mise à jour : Paramètres > Applications > Dovit Bridge > Informations,
-activer « Afficher dans la barre latérale ». Dovit Bridge apparaît alors dans
+Après mise à jour : Paramètres > Applications > D2HA Bridge > Informations,
+activer « Afficher dans la barre latérale ». D2HA Bridge apparaît alors dans
 le menu hamburger. Recharger la page HA si nécessaire.
 Accès réservé aux administrateurs, car cette interface peut commander des appareils
 et modifier leur configuration. Aucun changement de configuration.yaml nécessaire.
