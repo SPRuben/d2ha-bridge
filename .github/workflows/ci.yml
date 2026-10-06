@@ -1,0 +1,184 @@
+name: CI and container images
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+    tags: ['v*']
+  workflow_dispatch:
+    inputs:
+      publish:
+        description: 'Publish the checked app version to GHCR (explicit release action)'
+        type: boolean
+        required: true
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  checks:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: '3.11.17'
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: '24'
+      - name: Install test dependencies
+        run: python -m pip install -r dovit_bridge/requirements.txt -r dovit_bridge/integration_tests/requirements.txt -r scripts/requirements-ci.txt
+      - name: Configuration, Python syntax, empty seed, links and privacy
+        run: python scripts/check_repository.py
+      - name: Complete Python suite
+        working-directory: dovit_bridge
+        run: python -m unittest discover -s tests -v
+      - name: JavaScript syntax and complete Node suite
+        working-directory: dovit_bridge
+        run: |
+          set -euo pipefail
+          for file in dovit_bridge/web/*.js; do node --check "$file"; done
+          for file in tests/*.cjs; do node "$file"; done
+      - name: Isolated loopback MQTT and TLS integration
+        working-directory: dovit_bridge
+        run: |
+          python integration_tests/test_loopback_broker.py --run-loopback
+          python integration_tests/test_loopback_tls.py --run-loopback
+
+  build:
+    needs: checks
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - arch: amd64
+            platform: linux/amd64
+          - arch: aarch64
+            platform: linux/arm64
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: '3.11.17'
+      - name: Prepare image inventory and version
+        id: app
+        run: |
+          python -m pip install -r scripts/requirements-ci.txt
+          python scripts/check_repository.py --inventory "$RUNNER_TEMP/inventory.csv"
+          python -c 'import yaml,os; version=yaml.safe_load(open("dovit_bridge/config.yaml"))["version"]; print("version="+version, file=open(os.environ["GITHUB_OUTPUT"],"a"))'
+      - uses: docker/setup-qemu-action@c7c53464625b32c7a7e944ae62b3e17d2b600130 # v3
+        with:
+          platforms: arm64
+      - uses: docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f # v3
+      - uses: docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8 # v6
+        with:
+          context: dovit_bridge
+          platforms: ${{ matrix.platform }}
+          push: false
+          load: true
+          tags: d2ha-bridge:ci
+          build-args: |
+            BUILD_ARCH=${{ matrix.arch }}
+            BUILD_VERSION=${{ steps.app.outputs.version }}
+      - name: Verify production inventory, dependencies and restricted startup
+        run: |
+          docker run --rm --network none --platform '${{ matrix.platform }}' \
+            --env PYTHONPATH=/app \
+            --add-host supervisor:192.0.2.2 \
+            --tmpfs /data --tmpfs /share \
+            --mount "type=bind,src=$RUNNER_TEMP/inventory.csv,dst=/inventory.csv,readonly" \
+            --mount "type=bind,src=$GITHUB_WORKSPACE/dovit_bridge/integration_tests,dst=/verification,readonly" \
+            d2ha-bridge:ci python /verification/test_container_startup.py
+
+  publish:
+    if: github.repository == 'SPRuben/d2ha-bridge' && ((github.event_name == 'workflow_dispatch' && inputs.publish) || (github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')))
+    needs: [checks, build]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: '3.11.17'
+      - name: Check version and optional release tag
+        id: app
+        run: |
+          python -m pip install -r scripts/requirements-ci.txt
+          python scripts/check_repository.py
+          python - <<'PY'
+          import os, yaml
+          version = yaml.safe_load(open('dovit_bridge/config.yaml'))['version']
+          if os.environ['GITHUB_REF_TYPE'] == 'tag':
+              assert os.environ['GITHUB_REF_NAME'] == 'v' + version, 'Tag and app version differ'
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as output:
+              print('version=' + version, file=output)
+          PY
+      - uses: docker/setup-qemu-action@c7c53464625b32c7a7e944ae62b3e17d2b600130 # v3
+        with:
+          platforms: arm64
+      - uses: docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f # v3
+      - uses: docker/login-action@c94ce9fb468520275223c153574b00df6fe4bcc9 # v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Publish amd64 image
+        id: amd64
+        uses: docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8 # v6
+        with:
+          context: dovit_bridge
+          platforms: linux/amd64
+          push: true
+          tags: ghcr.io/spruben/d2ha-bridge:${{ steps.app.outputs.version }}-amd64
+          build-args: |
+            BUILD_ARCH=amd64
+            BUILD_VERSION=${{ steps.app.outputs.version }}
+      - name: Publish aarch64 image
+        id: aarch64
+        uses: docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8 # v6
+        with:
+          context: dovit_bridge
+          platforms: linux/arm64
+          push: true
+          tags: ghcr.io/spruben/d2ha-bridge:${{ steps.app.outputs.version }}-aarch64
+          build-args: |
+            BUILD_ARCH=aarch64
+            BUILD_VERSION=${{ steps.app.outputs.version }}
+      - name: Publish and verify versioned multi-architecture manifest
+        env:
+          VERSION: ${{ steps.app.outputs.version }}
+          AMD64_DIGEST: ${{ steps.amd64.outputs.digest }}
+          AARCH64_DIGEST: ${{ steps.aarch64.outputs.digest }}
+        run: |
+          set -euo pipefail
+          image=ghcr.io/spruben/d2ha-bridge
+          docker buildx imagetools create --tag "$image:$VERSION" \
+            "$image@$AMD64_DIGEST" "$image@$AARCH64_DIGEST"
+          docker buildx imagetools inspect --raw "$image:$VERSION" > "$RUNNER_TEMP/manifest.json"
+          python - <<'PY'
+          import json, os
+          with open(os.environ['RUNNER_TEMP'] + '/manifest.json') as source:
+              manifest = json.load(source)
+          platforms = {(item['platform']['os'], item['platform']['architecture'])
+                       for item in manifest['manifests'] if item['platform']['os'] != 'unknown'}
+          assert platforms == {('linux', 'amd64'), ('linux', 'arm64')}, platforms
+          PY

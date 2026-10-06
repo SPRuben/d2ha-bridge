@@ -1,16 +1,17 @@
-FROM python:3.11-alpine
+FROM python:3.11.17-alpine3.23@sha256:924d53e01cee5204d35fbcfb71b6c1568c857d7c31141f960ff6a37e111ecc7f
 
-# Keep the existing Python/Alpine runtime. This FROM is authoritative even when
-# an older Supervisor supplies the legacy BUILD_FROM argument from build.yaml.
-ARG BUILD_VERSION="2.2"
+# Pin the multi-platform index, retaining Python 3.11 and the Alpine runtime.
+ARG BUILD_VERSION="3.0.0"
 ARG BUILD_ARCH="aarch64|amd64"
 
-# The legacy addon type is also recognized by current Supervisor app releases.
-LABEL io.hass.name="Dovit Bridge" \
-      io.hass.description="Dovit TCP to MQTT bridge" \
+LABEL io.hass.name="D2HA Bridge" \
+      io.hass.description="Independent Dovit TCP/XML to MQTT bridge for Home Assistant" \
       io.hass.version="${BUILD_VERSION}" \
-      io.hass.type="addon" \
+      io.hass.type="app" \
       io.hass.arch="${BUILD_ARCH}"
+
+LABEL org.opencontainers.image.source="https://github.com/SPRuben/d2ha-bridge" \
+      org.opencontainers.image.version="${BUILD_VERSION}"
 
 ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1

@@ -1,0 +1,86 @@
+{
+  "dovit_bridge/icon.png": {
+    "source": "home_assistant_app/icon.png",
+    "sha256": "d2ee66d73c7df7cfda14186d7fa96ea8d2847505d013b4b3a317741aa18929c4"
+  },
+  "dovit_bridge/logo.png": {
+    "source": "home_assistant_app/logo.png",
+    "sha256": "0b5c8591e3423914de6fb599fd3041517cea9471b0ef8cf4a9160836e4542977"
+  },
+  "dovit_bridge/icon@2x.png": {
+    "source": "home_assistant_app/icon@2x.png",
+    "sha256": "c6f1bf8e48204a6477993b14fbfe2356908f4862838fa22e9de2a24ba72645d9"
+  },
+  "dovit_bridge/logo@2x.png": {
+    "source": "home_assistant_app/logo@2x.png",
+    "sha256": "38fcc76c499d29c04b9bb0c078aaa14b39ea22b5f3f625def481b3bd3526c069"
+  },
+  "docs/assets/branding/readme-logo.png": {
+    "source": "github/readme-logo.png",
+    "sha256": "71580cf473bdaad736a9cc04e5f445a54cc625451fe422028ec75be3dec72beb"
+  },
+  "docs/assets/branding/social-preview.png": {
+    "source": "github/social-preview.png",
+    "sha256": "876fcdcd6bdf6437f49d70d7de57ef963229411c0fda137666c17d247200f04d"
+  },
+  "docs/assets/branding/project-avatar.png": {
+    "source": "github/project-avatar.png",
+    "sha256": "3b3d25d75c153b5b8fdcdca53c12ed1a87c8a6b6e1d71de1d26b7193d9a92d73"
+  },
+  "docs/assets/branding/homepage-header.png": {
+    "source": "ha_dashboard/homepage-header.png",
+    "sha256": "321fd9d3d32be07758f797effd14660a132bbebbe9fe5ff3a37bdaaea96fc22e"
+  },
+  "docs/assets/branding/icon-dark.png": {
+    "source": "ha_dashboard/icon-dark.png",
+    "sha256": "c6f1bf8e48204a6477993b14fbfe2356908f4862838fa22e9de2a24ba72645d9"
+  },
+  "docs/assets/branding/icon-light.png": {
+    "source": "ha_dashboard/icon-light.png",
+    "sha256": "e5dd42c5d67f4684fb0485f830751cd057510b6c036f99f295189cd71e0d2778"
+  },
+  "docs/assets/branding/logo-dark.png": {
+    "source": "ha_dashboard/logo-dark.png",
+    "sha256": "7a7ecc0ae2af69a69160487d06421ccb7d2ef955b13f86b79d3918c42be9d954"
+  },
+  "docs/assets/branding/logo-light.png": {
+    "source": "ha_dashboard/logo-light.png",
+    "sha256": "32f27a5e0ecc91c08963afa444b5b58298ee8f0e318e89efbff333e1f195a1dd"
+  },
+  "dovit_bridge/dovit_bridge/web/branding/android-chrome-192.png": {
+    "source": "web/android-chrome-192.png",
+    "sha256": "197d0749600d1218fd8b1730d9a3f2370258a154a7e32590511a58b2b0b7ebdf"
+  },
+  "dovit_bridge/dovit_bridge/web/branding/android-chrome-512.png": {
+    "source": "web/android-chrome-512.png",
+    "sha256": "3b3d25d75c153b5b8fdcdca53c12ed1a87c8a6b6e1d71de1d26b7193d9a92d73"
+  },
+  "dovit_bridge/dovit_bridge/web/branding/apple-touch-icon.png": {
+    "source": "web/apple-touch-icon.png",
+    "sha256": "c78728a0793841177ca8283680208a964e9c789e312936140234902d728a94b6"
+  },
+  "dovit_bridge/dovit_bridge/web/branding/favicon-32.png": {
+    "source": "web/favicon-32.png",
+    "sha256": "e479f1a6b472b0fe2a8d80b6df1ea18ec8f2cf779cf8f0704b648cf7fd5b798e"
+  },
+  "dovit_bridge/dovit_bridge/web/branding/favicon-64.png": {
+    "source": "web/favicon-64.png",
+    "sha256": "9f9d1f556fc043124961e35a9b64a8542d021de1110a89247b6021f877735004"
+  },
+  "dovit_bridge/dovit_bridge/web/branding/icon-light.png": {
+    "source": "ha_dashboard/icon-light.png",
+    "sha256": "e5dd42c5d67f4684fb0485f830751cd057510b6c036f99f295189cd71e0d2778"
+  },
+  "docs/assets/branding/brand-tokens.json": {
+    "source": "brand-tokens.json",
+    "sha256": "21296c9ed459c338456a4d31a319c871d20f6d9226a10eaf3313ce01d3e8a5d6"
+  },
+  "docs/assets/branding/source/d2ha-bridge-logo.svg": {
+    "source": "source/d2ha-bridge-logo.svg",
+    "sha256": "7c00bd5c5ecb20c6ea1af4cdf274894cb73516dab7931660bdebfc51ef4eec4f"
+  },
+  "docs/assets/branding/source/d2ha-bridge-mark.svg": {
+    "source": "source/d2ha-bridge-mark.svg",
+    "sha256": "90dfed0ad3c05e1395b6d268cf01bc495deee30baa3c09efab3765034f3a625e"
+  }
+}

@@ -14,5 +14,18 @@ dovit_observed_candidates.json
 dovit_cover_positions.json
 .env
 .env.*
-!.env.example
 options.json
+backups/
+backup/
+data/
+share/
+*.bak
+*.backup
+*.tar
+*.tar.gz
+*.zip
+*.pem
+*.key
+# Only the intentionally empty public seed is versioned.
+dovit_devices*.json
+!dovit_bridge/dovit_devices.json

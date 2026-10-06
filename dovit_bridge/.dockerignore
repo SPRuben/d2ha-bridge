@@ -14,3 +14,11 @@ dovit_device_backups
 dovit_observed_candidates.json
 dovit_cover_positions.json
 options.json
+.env
+.env.*
+backups
+backup
+*.bak
+*.backup
+*.pem
+*.key

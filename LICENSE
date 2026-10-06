@@ -1,10 +1,10 @@
-Dovit Bridge Noncommercial Unmodified Use License 1.0
+D2HA Bridge Noncommercial Unmodified Use License 1.0
 
 Copyright (c) 2026 SPRuben. All rights reserved except as expressly granted below.
 
 1. Scope and free permission
 
-This license applies to the original Dovit Bridge source code, documentation
+This license applies to the original D2HA Bridge source code, documentation
 and assets in this repository (the Software), excluding third-party components.
 Anyone may download, copy, build, install and run the unmodified Software free
 of charge solely for noncommercial purposes, subject to these terms.
@@ -65,7 +65,7 @@ liability or statutory rights that cannot lawfully be excluded.
 
 7. Permission requests
 
-Contact the maintainer through https://github.com/SPRuben/dovit-bridge/issues
+Contact the maintainer through https://github.com/SPRuben/d2ha-bridge/issues
 to request a way to discuss written modification permission or a commercial
 agreement. Do not post passwords, device data or confidential commercial
 details in public issues. No response or informal discussion grants permission;

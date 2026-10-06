@@ -1,10 +1,29 @@
-# Entwicklerhandbuch - Dovit Bridge
+# Entwicklerhandbuch - D2HA Bridge
+
+> Tutorial images: historical 2.0 screenshots using simulated data and the former branding; workflows are retained, but these do not show 3.0.0 or a live installation.
 
 Dieses Projekt verwendet eigene Source-Available-Nutzungsbedingungen. Änderungen
 am Programm, an Dokumenten oder Grafiken benötigen vorher die schriftliche
 Erlaubnis des Rechteinhabers, auch für private Änderungen. Kommerzielle Nutzung
 benötigt eine separate schriftliche Vereinbarung. Eigene Konfiguration und
-Gerätezuordnungen sind erlaubt. Lizenz: https://github.com/SPRuben/dovit-bridge/blob/main/LICENSE
+Gerätezuordnungen sind erlaubt. Lizenz: https://github.com/SPRuben/d2ha-bridge/blob/main/LICENSE
+
+## Veröffentlichung 3.0.0
+
+App-Slug bleibt: `local_dovit_bridge`; `io.hass.type="app"`. Die App verwendet das interne
+HA-Netz ohne Host-Portfreigabe; ausgehendes Dovit-TCP/MQTT bleibt konfigurierbar.
+Ingress prüft den tatsächlichen TCP-Peer gegen die aktuell per DNS aufgelöste
+Supervisor-Adresse. DNS-Fehler verweigern Zugriff; Header ersetzen diese Prüfung
+nicht. Keine zusätzliche Supervisor-API-Berechtigung.
+
+Python 3.11.17/Alpine 3.23 ist per Multi-Arch-Digest festgelegt. Vorbereitete
+GHCR-Images und CI unterstützen amd64/aarch64. Phase 1 ändert keine App-/MQTT-/Speicheridentität.
+Bestehende HA-Repository-URLs und die Installationsquelle müssen erhalten bleiben;
+ein Wechsel von lokal zur Repository-App wäre eine separate Datenmigration.
+Freigabereihenfolge: docs/RELEASING.md. Echte HA-/Ingress-/Hardware-/HomeKit-
+Abnahme und GHCR-Veröffentlichung stehen noch aus.
+
+D2HA Bridge is an independent, unofficial community project. It is not affiliated with, endorsed by, or sponsored by Dovit or RISCO Group. Dovit and related marks are the property of their respective owners.
 
 ## Produktionsverhalten in 2.2 (eingeführt ab 2.0)
 
@@ -28,9 +47,9 @@ Das Produktionsimage verwendet weiterhin Python 3.11/Alpine und ausschließlich
 `paho-mqtt==2.1.0` aus `requirements.txt`. `.dockerignore` erlaubt nur Laufzeitdateien,
 Handbücher und Build-Eingaben; Caches, Tests, private Einstellungen und Backups
 bleiben außerhalb des Build-Kontexts. `Dockerfile` ist die maßgebliche Basis,
-`build.yaml` nur die erhaltene Kompatibilitätskonfiguration.
+eine separate Build-Konfiguration wird nicht mehr verwendet.
 
-Öffentliche Installation und Grenzen: https://github.com/SPRuben/dovit-bridge/blob/main/dovit_bridge/DOCS.md
+Öffentliche Installation und Grenzen: https://github.com/SPRuben/d2ha-bridge/blob/main/dovit_bridge/DOCS.md
 Laufzeit- und Paketverifikation getrennt betrachten; frühere Tests sind in
 dovit_bridge/CHANGELOG.md zusammengefasst. Sie bestätigen keine reale Installation
 des öffentlichen Repositorys auf einem neuen HA-System und keine HomeKit-Abnahme.
@@ -106,8 +125,8 @@ löst keine solche Bereinigung aus.
 
 ## Version 1.17
 
-Historischer Ursprung dieser Funktionen: App-Name und panel_title sind Dovit Bridge;
-slug bleibt local_dovit_bridge. Ingress und der ausschließlich Administratoren
+Historischer Ursprung dieser Funktionen: App-Name und panel_title wurden vereinheitlicht.
+Der heutige Name D2HA Bridge gilt seit 3.0.0; der Slug bleibt `local_dovit_bridge`. Ingress und der ausschließlich Administratoren
 vorbehaltene Zugriff bleiben erhalten. Die Sichtbarkeit in der Seitenleiste ist
 eine Supervisor-Benutzereinstellung, kein config.yaml-Schalter: In HA
 „In der Seitenleiste anzeigen“ (Show in sidebar) aktivieren. Es wird keine neue
@@ -172,7 +191,7 @@ Rohwerte bleiben im Ereignisverlauf erhalten. Automatisierte Tests verwenden
 synthetische Daten, niemals reale Dovit- oder HA-Befehle.
 
 
-Aktueller Laufzeitstand: 2.2. Historische Versionsüberschriften kennzeichnen
+Aktuelle Paketversion: 3.0.0; Protokoll-/MQTT-Verhalten aus 2.2, nur Discovery-Geräteanzeigename/Hersteller aktualisiert. Historische Versionsüberschriften kennzeichnen
 die Einführung einzelner Funktionen und keine heutige Deployment-Aussage.
 
 ## Geräteeditor 1.15
@@ -269,8 +288,9 @@ und Langzeitlast sind vor einem Release gesondert zu prüfen.
 
 ## API
 
-Ingress erwartet den tatsächlichen TCP-Peer `172.30.32.2`. Andere Quellen werden
-abgewiesen; `X-Forwarded-For` wird nicht zur Authentifizierung verwendet.
+Ingress erwartet den tatsächlichen TCP-Peer des per DNS aufgelösten Dienstes
+`supervisor`. Die Auflösung wird bei jeder Anfrage erneuert; Fehler/andere
+Quellen werden abgewiesen. `X-Forwarded-For` wird nicht zur Authentifizierung verwendet.
 Lokal erlaubt ausschließlich der Preview-Aufruf explizit `127.0.0.1`.
 
 | Route | Zweck |
@@ -290,8 +310,9 @@ Die API setzt kein CORS-Allow-Origin. Frontend nutzt relative URLs für Ingress.
 Responses dürfen nicht gecacht werden; Assets/Snapshot nutzen eine lokale CSP.
 
 Ein Snapshot enthält private Hausdaten. Niemals den Ingress-Port im Router freigeben.
-`host_network: true` bleibt aus dem bisherigen Add-on erhalten: vor Deployment
-Portkonflikte auf 8099 und die tatsächliche Ingress-Quelladresse kontrollieren.
+Containerport 8099 ist ausschließlich für internes Ingress vorgesehen. Es
+gibt keine Host-Portfreigabe und kein Hostnetz. Die konkrete HA-/LAN-Verbindung
+ist vor Freigabe live zu prüfen; isolierte Tests bestätigen sie nicht.
 HA-Referenz: https://developers.home-assistant.io/docs/apps/presentation/#ingress
 
 ## Beobachtungsmodell

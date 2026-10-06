@@ -1,10 +1,14 @@
-# Benutzerhandbuch - Dovit Bridge
+# Benutzerhandbuch - D2HA Bridge
+
+> Tutorial images: historical 2.0 screenshots using simulated data and the former branding; workflows are retained, but these do not show 3.0.0 or a live installation.
 
 Unveränderte nichtkommerzielle Nutzung ist kostenlos. Änderungen am Programm
 oder seinen Dokumenten sowie kommerzielle Nutzung brauchen vorher schriftliche
 Erlaubnis; kommerzielle Bedingungen werden separat vereinbart. Eigene Einstellungen
 und Gerätezuordnungen sind erlaubt und bleiben deine Daten.
-Lizenz: https://github.com/SPRuben/dovit-bridge/blob/main/LICENSE
+Lizenz: https://github.com/SPRuben/d2ha-bridge/blob/main/LICENSE
+
+D2HA Bridge is an independent, unofficial community project. It is not affiliated with, endorsed by, or sponsored by Dovit or RISCO Group. Dovit and related marks are the property of their respective owners.
 
 ## Einstieg in 2.2: Geräte, Einrichtung und Diagnose
 
@@ -12,7 +16,7 @@ Diese Anleitung beschreibt den 2.2-Laufzeitstand im experimentellen öffentliche
 Die Installation dieses Repositorys auf einem neuen HA-System und die Kompatibilität
 mit anderen Dovit-Anlagen sind noch nicht live bestätigt. Frühere Release-Hinweise
 stehen am Ende unter „Historische Versionshinweise“.
-Installationsanleitung: https://github.com/SPRuben/dovit-bridge/blob/main/dovit_bridge/DOCS.md
+Installationsanleitung: https://github.com/SPRuben/d2ha-bridge/blob/main/dovit_bridge/DOCS.md
 
 Die Abbildungen stammen aus der 2.0-Vorschau mit simulierten Geräten und
 Testdaten. Sie helfen bei der Orientierung und belegen keine Verbindung zu
@@ -73,7 +77,7 @@ sind Platzhalter. Vor Updates die tatsächlichen eigenen Daten und Optionen sich
 
 ### 1. Voraussetzungen prüfen
 
-Die Verbindung läuft so: Dovit TCP/XML > Dovit Bridge > MQTT-Broker >
+Die Verbindung läuft so: Dovit TCP/XML > D2HA Bridge > MQTT-Broker >
 Home Assistant MQTT-Integration > optional HomeKit Bridge.
 
 - Eine funktionierende Dovit-Anlage mit erreichbarem TCP/XML-Zugang; beispielsweise Port 6060; den tatsächlichen Port deiner Anlage prüfen. Nicht jeder Dovit-Zugang ist damit nachgewiesen kompatibel.
@@ -82,7 +86,7 @@ Home Assistant MQTT-Integration > optional HomeKit Bridge.
 - Die MQTT-Integration in HA muss mit demselben Broker verbunden sein und MQTT Discovery verwenden.
 - Die Bridge muss Dovit und den Broker im lokalen Netz erreichen können. Stabile IP-Adressen sind hilfreich.
 - Eine eigene Gerätedatei mit geprüften IDs und Signalarten oder ein ausdrücklich neuer, leerer Start.
-- Für Apple Home zusätzlich die HA-Integration HomeKit Bridge; sie ist für die Dovit Bridge selbst nicht nötig.
+- Für Apple Home zusätzlich die HA-Integration HomeKit Bridge; sie ist für die D2HA Bridge selbst nicht nötig.
 
 Die **Geräte-ID** bezeichnet die Dovit-ID, die **Signalart (Statetype)** den
 technischen Typ des gemeldeten Werts. Beide bilden zusammen einen Endpunkt.
@@ -94,19 +98,17 @@ Dovit-, MQTT- und Vorschauports nicht ins Internet freigeben.
 ### 2. App installieren und MQTT vorbereiten
 
 1. Bei einer bestehenden Installation zuerst HA und die aktive Gerätedatei sichern. Die tatsächlichen Dateien vor einem Austausch sichern, nicht nur die lokale Entwicklungskopie.
-2. Unter Einstellungen > Apps > App-Store > Menü > Repositories https://github.com/SPRuben/dovit-bridge hinzufügen. Ältere HA-Versionen nennen Apps „Add-ons“.
-3. Die Store-Liste aktualisieren, Dovit Bridge auswählen und installieren. Öffentliche Architekturen: amd64/aarch64. Eine bisherige lokale Bridge vorher stoppen; beide niemals parallel betreiben. Ihre privaten /data-Einstellungen werden nicht automatisch in die neue Repository-App übertragen.
+2. Unter Einstellungen > Apps > App-Store > Menü > Repositories https://github.com/SPRuben/d2ha-bridge hinzufügen. Ältere HA-Versionen nennen Apps „Add-ons“.
+3. Die Store-Liste aktualisieren, D2HA Bridge auswählen und installieren. Öffentliche Architekturen: amd64/aarch64. Eine bisherige lokale Bridge vorher stoppen; beide niemals parallel betreiben. Ihre privaten /data-Einstellungen werden nicht automatisch in die neue Repository-App übertragen.
 4. MQTT-Broker starten und einen gültigen, für MQTT geeigneten Benutzer einrichten. Platzhalter wie `mqtt-user` sind keine zugesicherten Zugangsdaten.
 5. Unter Einstellungen > Geräte & Dienste die MQTT-Integration einrichten oder ihre Verbindung prüfen. Broker und Integration sind zwei unterschiedliche Bausteine.
 
-Diese Repository-Installation benötigt Apps-Unterstützung und baut das Image
-aus den Quellen. Es ist keine manuelle Kopie nach /addons nötig. Eigene /share-
-Zuordnungen und App-Optionen vor einer Migration sichern; Details in DOCS.md.
+3.0.0 ist zunächst ein vorbereiteter Release-Kandidat. Nach Veröffentlichung nutzt die App öffentliche GHCR-Images für amd64/aarch64. Ingress bleibt auf internem Port 8099 ohne Host-Port. Der Slug `local_dovit_bridge` bleibt erhalten. Bestehende Nutzer behalten dieselbe App und den bisherigen Repository-Eintrag; eine lokale Installation bleibt lokal. Die neue URL oben gilt nur für neue Installationen. HA-Backup und eigene Daten vor jedem Update sichern. Details: https://github.com/SPRuben/d2ha-bridge/blob/main/docs/MIGRATION_D2HA.md
 Details zur MQTT-Einrichtung: https://www.home-assistant.io/integrations/mqtt
 
 ### 3. Basisoptionen vor dem Start festlegen
 
-Einstellungen > Apps > Dovit Bridge > Konfiguration öffnen. Hier bleiben
+Einstellungen > Apps > D2HA Bridge > Konfiguration öffnen. Hier bleiben
 insbesondere `devices_file`, `enable_discovery`, reale Webtests, Rollladenmodus
 und Alarmoptionen. Diese Optionen gehören nicht in die Geräte-JSON oder die
 HA-`configuration.yaml`; der Web-Assistent ändert sie nicht.
@@ -161,7 +163,7 @@ werden. 192.0.2.10 im Beispiel ist eine Dokumentationsadresse, kein echter Zugan
 
 1. Bei vorhandenen Zuordnungen die eigene geprüfte JSON-Datei am konfigurierten Pfad bereitstellen, beispielsweise im HA-share-Verzeichnis per Samba.
 2. Nur bei einer wirklich neuen Anlage ohne frühere Zuordnungen im Wiederherstellungsassistenten „Neue Installation vorbereiten“ wählen. Das bereitet nur einen leeren Entwurf vor; prüfen, leere Zuordnung zusätzlich bestätigen und anschließend selbst neu starten. Alternativ kann die folgende leere Datei als bewusster Ausgangspunkt dienen. Sie repariert keine verlorenen Zuordnungen.
-3. App-Optionen speichern und Dovit Bridge starten. Zunächst Logs lesen, nicht sofort Geräte steuern.
+3. App-Optionen speichern und D2HA Bridge starten. Zunächst Logs lesen, nicht sofort Geräte steuern.
 
 ```json
 {
@@ -188,7 +190,7 @@ Wiederherstellung: die passende eigene Quelle auswählen und prüfen; die Übern
 
 ### 5. Webseite öffnen und in vier Schritten einrichten
 
-1. In der App unter Informationen „In der Seitenleiste anzeigen“ aktivieren; anschließend im HA-Menü Dovit Bridge öffnen. Alternativ „Weboberfläche öffnen“ verwenden.
+1. In der App unter Informationen „In der Seitenleiste anzeigen“ aktivieren; anschließend im HA-Menü D2HA Bridge öffnen. Alternativ „Weboberfläche öffnen“ verwenden.
 2. Deutsch oder Français wählen. Unter **Handbücher** findest du diese Anleitung auch ohne Internet.
 3. **Einrichtung** öffnen. Der Assistent lädt die gespeicherten Einstellungen in einen lokalen Entwurf. Die Rückmeldung **Aktuelle Verbindung · nur lesen** beschreibt weiterhin die laufende Bridge, nicht diesen Entwurf.
 
@@ -259,7 +261,7 @@ Beispiel: Ein Licht im Büro soll als „Büro Licht“ zugeordnet werden.
 4. Am passenden Signal direkt **Gerät zuordnen** wählen. Bei einem automatisch abgeleiteten TODO-Gerät dagegen das Zahnrad **Gerät verwalten**, dann **Bearbeiten** öffnen; auch solche Zuordnungen müssen geprüft werden.
 5. Kategorie Licht und einen verständlichen Namen wählen. ID und Signalart anhand der Beobachtung prüfen, nicht raten.
 6. Änderung prüfen, Vorschau lesen und bestätigen. Anschließend für den nächsten Start vormerken.
-7. Die Dovit Bridge bewusst neu starten. Vor Übernahme wird die bisherige Gerätedatei gesichert und erneut geprüft.
+7. Die D2HA Bridge bewusst neu starten. Vor Übernahme wird die bisherige Gerätedatei gesichert und erneut geprüft.
 8. Seite neu laden: Das Licht muss unter den bekannten Geräten erscheinen. Mit publish_discovery ein zusätzlich in HA unter MQTT kontrollieren.
 
 ![Zuordnung prüfen: lesbare Übersicht und Bestätigung](images/device-assignment-de.jpg)
@@ -694,12 +696,12 @@ halten die HomeKit Bridge nicht an.
 
 **`publish_discovery`** kannst du unter **Einrichtung → 4 · Veröffentlichung**
 für den nächsten manuellen Neustart speichern. **`enable_discovery`** bleibt
-dort unverändert und gehört in die **Konfiguration der Dovit-Bridge-App in HA**.
+dort unverändert und gehört in die **Konfiguration der D2HA-Bridge-App in HA**.
 Die Optionen gehören weder in die Geräte-JSON noch in die HomeKit-Konfiguration.
 
 Gespeicherte Web-Einstellungen haben für `publish_discovery` Vorrang vor dem
 entsprechenden App-Wert; diese unter **Einrichtung** prüfen und bewusst ändern.
-Nach Änderungen selbst die Dovit Bridge neu starten. Die Zusammenfassung nennt
+Nach Änderungen selbst die D2HA Bridge neu starten. Die Zusammenfassung nennt
 deinen Veröffentlichungswunsch, die unveränderte automatische Suche und das
 geplante Ergebnis getrennt. Sie bestätigt weder eine erfolgreiche Verbindung
 noch eine Übernahme durch HA. Die Beispiele erklären Einstellungen, nicht
@@ -742,15 +744,15 @@ Die tatsächliche installierte Version und die Übernahme in HA selbst prüfen.
 ## Historische Versionshinweise (1.17 und 1.16)
 
 Die folgenden Hinweise bleiben als Entwicklungsgeschichte erhalten. Ihre damaligen
-Beschriftungen und Navigationswege beschreiben nicht den aktuellen 2.2-Einstieg.
+Beschriftungen und Navigationswege beschreiben nicht den aktuellen 3.0.0-Einstieg.
 Ergänzungen aus 1.19 sind ebenfalls historische Herkunftshinweise, keine Zusage
 zur tatsächlich installierten HA-Version. Für den heutigen Ablauf die Anleitung
 oben verwenden.
 
 ### Neu in 1.17
 
-Die App heißt jetzt Dovit Bridge. Die App-ID bleibt gleich; das Update legt
-keine zweite Bridge an und ändert keine MQTT- oder HomeKit-Identitäten.
+Historisch wurden App-Name und Seitenleistentitel vereinheitlicht.
+Der heutige öffentliche Name D2HA Bridge wird erst mit 3.0.0 eingeführt.
 
 Die Verbindungsanzeige ist deutlich hervorgehoben: Grün bedeutet Dovit verbunden,
 Orange bedeutet Oberfläche erreichbar, aber Dovit nicht verbunden; Rot bedeutet,
@@ -786,8 +788,8 @@ Maximale Dokumentgröße: 256 KiB. Es werden keine Gerätebefehle gesendet.
 
 ### Direktzugriff in Home Assistant
 
-Nach dem Update: Einstellungen > Apps > Dovit Bridge > Informationen öffnen
-und „In der Seitenleiste anzeigen“ einschalten. Danach erscheint Dovit Bridge
+Nach dem Update: Einstellungen > Apps > D2HA Bridge > Informationen öffnen
+und „In der Seitenleiste anzeigen“ einschalten. Danach erscheint D2HA Bridge
 direkt im Hamburger-Menü. Falls nötig, HA-Seite neu laden.
 Der Zugang bleibt Administratoren vorbehalten, da die Oberfläche Geräte steuern
 und Konfiguration ändern kann. Keine Änderung der configuration.yaml nötig.

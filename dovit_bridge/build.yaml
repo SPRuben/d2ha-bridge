@@ -1,6 +1,0 @@
-# Legacy Supervisor compatibility only; Dockerfile defines the actual runtime.
-# Modern builds do not require BUILD_FROM or this file. Keep historical builds
-# aligned with the same multi-platform Python base, without switching to S6.
-build_from:
-  amd64: python:3.11-alpine
-  aarch64: python:3.11-alpine

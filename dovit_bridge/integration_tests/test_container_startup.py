@@ -28,7 +28,7 @@ DATA = Path("/data")
 SHARE = Path("/share")
 INVENTORY = Path("/inventory.csv")
 START_TIMEOUT = 60.0
-BUILD_ONLY = {"Dockerfile", "config.yaml", "build.yaml", ".dockerignore"}
+BUILD_ONLY = {"Dockerfile", "config.yaml", ".dockerignore"}
 
 
 def require(condition: bool, message: str) -> None:

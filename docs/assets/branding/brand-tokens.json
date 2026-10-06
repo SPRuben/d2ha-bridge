@@ -1,0 +1,15 @@
+{
+  "brand": "D2HA Bridge",
+  "tagline": "Home Assistant Bridge",
+  "colors": {
+    "navy": "#1E293B",
+    "blue": "#3B82F6",
+    "teal": "#14B8A6",
+    "light_gray": "#E2E8F0",
+    "white": "#FFFFFF",
+    "slate": "#64748B"
+  },
+  "typeface": "Inter",
+  "compatibility_reference": "Compatible Dovit systems",
+  "disclaimer": "D2HA Bridge is independent and unofficial. It is not affiliated with, endorsed by, or sponsored by Dovit or RISCO Group. Dovit and related marks belong to their respective owners."
+}

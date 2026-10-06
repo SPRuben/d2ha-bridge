@@ -203,7 +203,7 @@ const messages = {
  'help_loading':['Handbuch wird geladen …','Chargement du guide…'],
  'help_error':['Handbuch nicht erreichbar. Bitte erneut öffnen.','Guide inaccessible. Veuillez le rouvrir.'],
  'help_notice':['Handbücher dieses lokalen Entwicklungsstands. Neue Funktionen sind nicht automatisch bereits auf HA installiert.','Guides de ce développement local. Les nouvelles fonctions ne sont pas automatiquement déjà installées sur HA.'],
- 'Dovit Beobachter':['Dovit-Beobachter','Observateur Dovit'],
+ 'Dovit Beobachter':['D2HA Bridge','D2HA Bridge'],
  'Verbinde ...':['Verbindung wird hergestellt …','Connexion en cours…'],
  'DEIN HAUS. SICHTBAR GEMACHT.':['DEIN HAUS. SICHTBAR GEMACHT.','VOTRE MAISON. EN UN COUP D’ŒIL.'],
  'Was passiert gerade?':['Was passiert gerade?','Que se passe-t-il ?'],
@@ -365,7 +365,7 @@ function t(source){
 }
 function setText(element,source){element.dataset.i18n=source;element.textContent=t(source);}
 function translateStatic(){
- document.documentElement.lang=language; document.title='Dovit Bridge';
+ document.documentElement.lang=language; document.title='D2HA Bridge';
  document.querySelectorAll('[data-i18n]').forEach(el=>{
   const text=Array.from(el.childNodes||(el.firstChild?[el.firstChild]:[])).find(child=>child.nodeType===Node.TEXT_NODE);
   if(text)text.nodeValue=t(el.dataset.i18n);else if(!el.children.length)el.textContent=t(el.dataset.i18n);

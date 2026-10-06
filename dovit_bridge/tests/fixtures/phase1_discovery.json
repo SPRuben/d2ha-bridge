@@ -1,0 +1,458 @@
+{
+  "source_commit": "6202acfaec39bd7380dabb0f0215099efd30443b",
+  "display_metadata_allowed": [
+    "name",
+    "manufacturer"
+  ],
+  "cases": [
+    {
+      "function": "light_payload",
+      "args": [
+        "dovit_bridge",
+        1,
+        "Example light"
+      ],
+      "kwargs": {},
+      "payload": {
+        "availability": [
+          {
+            "topic": "dovit/bridge/mqtt/status",
+            "payload_available": "online",
+            "payload_not_available": "offline"
+          },
+          {
+            "topic": "dovit/bridge/dovit/status",
+            "payload_available": "online",
+            "payload_not_available": "offline"
+          }
+        ],
+        "availability_mode": "all",
+        "name": "Example light",
+        "object_id": "dovit_light_1",
+        "unique_id": "dovit_light_1",
+        "state_topic": "dovit/light/1/state",
+        "command_topic": "dovit/light/1/set",
+        "payload_on": "ON",
+        "payload_off": "OFF",
+        "optimistic": false,
+        "retain": false,
+        "device": {
+          "identifiers": [
+            "dovit_bridge"
+          ],
+          "name": "Dovit Bridge",
+          "manufacturer": "Dovit",
+          "model": "TCP 6060 XML bridge"
+        }
+      }
+    },
+    {
+      "function": "switch_payload",
+      "args": [
+        "dovit_bridge",
+        2,
+        "Example switch"
+      ],
+      "kwargs": {},
+      "payload": {
+        "availability": [
+          {
+            "topic": "dovit/bridge/mqtt/status",
+            "payload_available": "online",
+            "payload_not_available": "offline"
+          },
+          {
+            "topic": "dovit/bridge/dovit/status",
+            "payload_available": "online",
+            "payload_not_available": "offline"
+          }
+        ],
+        "availability_mode": "all",
+        "name": "Example switch",
+        "default_entity_id": "switch.dovit_switch_2",
+        "unique_id": "dovit_switch_2",
+        "state_topic": "dovit/switch/2/state",
+        "command_topic": "dovit/switch/2/set",
+        "payload_on": "ON",
+        "payload_off": "OFF",
+        "optimistic": false,
+        "retain": false,
+        "device": {
+          "identifiers": [
+            "dovit_bridge"
+          ],
+          "name": "Dovit Bridge",
+          "manufacturer": "Dovit",
+          "model": "TCP 6060 XML bridge"
+        }
+      }
+    },
+    {
+      "function": "cover_payload",
+      "args": [
+        "dovit_bridge",
+        3,
+        "Example cover"
+      ],
+      "kwargs": {},
+      "payload": {
+        "availability": [
+          {
+            "topic": "dovit/bridge/mqtt/status",
+            "payload_available": "online",
+            "payload_not_available": "offline"
+          },
+          {
+            "topic": "dovit/bridge/dovit/status",
+            "payload_available": "online",
+            "payload_not_available": "offline"
+          }
+        ],
+        "availability_mode": "all",
+        "name": "Example cover",
+        "object_id": "dovit_cover_3",
+        "unique_id": "dovit_cover_3",
+        "command_topic": "dovit/cover/3/set",
+        "state_topic": "dovit/cover/3/state",
+        "payload_open": "OPEN",
+        "payload_close": "CLOSE",
+        "payload_stop": "STOP",
+        "state_opening": "opening",
+        "state_closing": "closing",
+        "state_stopped": "stopped",
+        "optimistic": false,
+        "device": {
+          "identifiers": [
+            "dovit_bridge"
+          ],
+          "name": "Dovit Bridge",
+          "manufacturer": "Dovit",
+          "model": "TCP 6060 XML bridge"
+        }
+      }
+    },
+    {
+      "function": "cover_payload",
+      "args": [
+        "dovit_bridge",
+        3,
+        "Example cover"
+      ],
+      "kwargs": {
+        "position_topic": "dovit/cover/3/position",
+        "set_position_topic": "dovit/cover/3/set_position"
+      },
+      "payload": {
+        "availability": [
+          {
+            "topic": "dovit/bridge/mqtt/status",
+            "payload_available": "online",
+            "payload_not_available": "offline"
+          },
+          {
+            "topic": "dovit/bridge/dovit/status",
+            "payload_available": "online",
+            "payload_not_available": "offline"
+          }
+        ],
+        "availability_mode": "all",
+        "name": "Example cover",
+        "object_id": "dovit_cover_3",
+        "unique_id": "dovit_cover_3",
+        "command_topic": "dovit/cover/3/set",
+        "state_topic": "dovit/cover/3/state",
+        "payload_open": "OPEN",
+        "payload_close": "CLOSE",
+        "payload_stop": "STOP",
+        "state_opening": "opening",
+        "state_closing": "closing",
+        "state_stopped": "stopped",
+        "optimistic": false,
+        "device": {
+          "identifiers": [
+            "dovit_bridge"
+          ],
+          "name": "Dovit Bridge",
+          "manufacturer": "Dovit",
+          "model": "TCP 6060 XML bridge"
+        },
+        "position_topic": "dovit/cover/3/position",
+        "set_position_topic": "dovit/cover/3/set_position",
+        "position_open": 100,
+        "position_closed": 0
+      }
+    },
+    {
+      "function": "motion_payload",
+      "args": [
+        "dovit_bridge",
+        4,
+        "Example motion"
+      ],
+      "kwargs": {},
+      "payload": {
+        "availability": [
+          {
+            "topic": "dovit/bridge/mqtt/status",
+            "payload_available": "online",
+            "payload_not_available": "offline"
+          },
+          {
+            "topic": "dovit/bridge/dovit/status",
+            "payload_available": "online",
+            "payload_not_available": "offline"
+          }
+        ],
+        "availability_mode": "all",
+        "name": "Example motion",
+        "object_id": "dovit_motion_4",
+        "unique_id": "dovit_motion_4",
+        "state_topic": "dovit/motion/4/state",
+        "payload_on": "ON",
+        "payload_off": "OFF",
+        "device_class": "motion",
+        "device": {
+          "identifiers": [
+            "dovit_bridge"
+          ],
+          "name": "Dovit Bridge",
+          "manufacturer": "Dovit",
+          "model": "TCP 6060 XML bridge"
+        }
+      }
+    },
+    {
+      "function": "contact_payload",
+      "args": [
+        "dovit_bridge",
+        5,
+        "Example contact"
+      ],
+      "kwargs": {},
+      "payload": {
+        "availability": [
+          {
+            "topic": "dovit/bridge/mqtt/status",
+            "payload_available": "online",
+            "payload_not_available": "offline"
+          },
+          {
+            "topic": "dovit/bridge/dovit/status",
+            "payload_available": "online",
+            "payload_not_available": "offline"
+          }
+        ],
+        "availability_mode": "all",
+        "name": "Example contact",
+        "object_id": "dovit_contact_5",
+        "unique_id": "dovit_contact_5",
+        "state_topic": "dovit/contact/5/state",
+        "payload_on": "ON",
+        "payload_off": "OFF",
+        "device_class": "door",
+        "device": {
+          "identifiers": [
+            "dovit_bridge"
+          ],
+          "name": "Dovit Bridge",
+          "manufacturer": "Dovit",
+          "model": "TCP 6060 XML bridge"
+        }
+      }
+    },
+    {
+      "function": "alarm_state_payload",
+      "args": [
+        "dovit_bridge",
+        6,
+        "Example alarm state"
+      ],
+      "kwargs": {},
+      "payload": {
+        "availability": [
+          {
+            "topic": "dovit/bridge/mqtt/status",
+            "payload_available": "online",
+            "payload_not_available": "offline"
+          },
+          {
+            "topic": "dovit/bridge/dovit/status",
+            "payload_available": "online",
+            "payload_not_available": "offline"
+          },
+          {
+            "topic": "dovit/bridge/alarm/6/state/availability",
+            "payload_available": "online",
+            "payload_not_available": "offline"
+          }
+        ],
+        "availability_mode": "all",
+        "name": "Example alarm state",
+        "object_id": "dovit_alarm_state_6",
+        "unique_id": "dovit_alarm_state_6",
+        "state_topic": "dovit/alarm/6/state",
+        "icon": "mdi:shield-home",
+        "device": {
+          "identifiers": [
+            "dovit_bridge"
+          ],
+          "name": "Dovit Bridge",
+          "manufacturer": "Dovit",
+          "model": "TCP 6060 XML bridge"
+        }
+      }
+    },
+    {
+      "function": "alarm_text_payload",
+      "args": [
+        "dovit_bridge",
+        6,
+        "Example alarm text"
+      ],
+      "kwargs": {},
+      "payload": {
+        "availability": [
+          {
+            "topic": "dovit/bridge/mqtt/status",
+            "payload_available": "online",
+            "payload_not_available": "offline"
+          },
+          {
+            "topic": "dovit/bridge/dovit/status",
+            "payload_available": "online",
+            "payload_not_available": "offline"
+          },
+          {
+            "topic": "dovit/bridge/alarm/6/text/availability",
+            "payload_available": "online",
+            "payload_not_available": "offline"
+          }
+        ],
+        "availability_mode": "all",
+        "name": "Example alarm text",
+        "object_id": "dovit_alarm_text_6",
+        "unique_id": "dovit_alarm_text_6",
+        "state_topic": "dovit/alarm/6/text",
+        "icon": "mdi:text-box-outline",
+        "entity_category": "diagnostic",
+        "device": {
+          "identifiers": [
+            "dovit_bridge"
+          ],
+          "name": "Dovit Bridge",
+          "manufacturer": "Dovit",
+          "model": "TCP 6060 XML bridge"
+        }
+      }
+    },
+    {
+      "function": "alarm_panel_payload",
+      "args": [
+        "dovit_bridge",
+        "Example alarm"
+      ],
+      "kwargs": {},
+      "payload": {
+        "availability": [
+          {
+            "topic": "dovit/bridge/mqtt/status",
+            "payload_available": "online",
+            "payload_not_available": "offline"
+          },
+          {
+            "topic": "dovit/bridge/dovit/status",
+            "payload_available": "online",
+            "payload_not_available": "offline"
+          },
+          {
+            "topic": "dovit/bridge/alarm/house/availability",
+            "payload_available": "online",
+            "payload_not_available": "offline"
+          }
+        ],
+        "availability_mode": "all",
+        "name": "Example alarm",
+        "object_id": "dovit_alarm_house",
+        "unique_id": "dovit_alarm_house",
+        "state_topic": "dovit/alarm/house/state",
+        "command_topic": "dovit/alarm/house/set",
+        "supported_features": [
+          "arm_home",
+          "arm_away"
+        ],
+        "payload_disarm": "DISARM",
+        "payload_arm_home": "ARM_HOME",
+        "payload_arm_away": "ARM_AWAY",
+        "code_arm_required": false,
+        "code_disarm_required": false,
+        "icon": "mdi:shield-lock",
+        "device": {
+          "identifiers": [
+            "dovit_bridge"
+          ],
+          "name": "Dovit Bridge",
+          "manufacturer": "Dovit",
+          "model": "TCP 6060 XML bridge"
+        }
+      }
+    },
+    {
+      "function": "climate_payload",
+      "args": [
+        "dovit_bridge",
+        7,
+        "Example thermostat",
+        5,
+        35,
+        0.5,
+        "dovit/thermostat/7/current_temperature",
+        "dovit/thermostat/7/target_temperature",
+        "dovit/thermostat/7/set",
+        "dovit/thermostat/7/mode",
+        "dovit/thermostat/7/mode/set"
+      ],
+      "kwargs": {},
+      "payload": {
+        "availability": [
+          {
+            "topic": "dovit/bridge/mqtt/status",
+            "payload_available": "online",
+            "payload_not_available": "offline"
+          },
+          {
+            "topic": "dovit/bridge/dovit/status",
+            "payload_available": "online",
+            "payload_not_available": "offline"
+          }
+        ],
+        "availability_mode": "all",
+        "name": "Example thermostat",
+        "object_id": "dovit_climate_7",
+        "unique_id": "dovit_climate_7",
+        "current_temperature_topic": "dovit/thermostat/7/current_temperature",
+        "temperature_state_topic": "dovit/thermostat/7/target_temperature",
+        "temperature_command_topic": "dovit/thermostat/7/set",
+        "mode_state_topic": "dovit/thermostat/7/mode",
+        "mode_command_topic": "dovit/thermostat/7/mode/set",
+        "modes": [
+          "off",
+          "heat"
+        ],
+        "min_temp": 5,
+        "max_temp": 35,
+        "temp_step": 0.5,
+        "precision": 0.1,
+        "temperature_unit": "C",
+        "optimistic": false,
+        "device": {
+          "identifiers": [
+            "dovit_bridge"
+          ],
+          "name": "Dovit Bridge",
+          "manufacturer": "Dovit",
+          "model": "TCP 6060 XML bridge"
+        }
+      }
+    }
+  ]
+}

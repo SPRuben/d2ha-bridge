@@ -103,14 +103,14 @@ class MonitorTests(unittest.TestCase):
         self.assertEqual(len(m.snapshot()['states']), 2000)
 
     def test_http_read_only_and_peer_restriction(self):
-        for peer, expected in [('127.0.0.1', 200), ('172.30.32.2', 403)]:
+        for peer, expected in [('127.0.0.1', 200), ('192.0.2.2', 403)]:
             server = make_server(Monitor(), '127.0.0.1', 0, peer)
             thread = threading.Thread(target=server.serve_forever, daemon=True)
             thread.start()
             base = f'http://127.0.0.1:{server.server_port}'
             try:
                 try:
-                    response = urlopen(Request(base + '/api/snapshot', headers={'X-Forwarded-For': '172.30.32.2'}))
+                    response = urlopen(Request(base + '/api/snapshot', headers={'X-Forwarded-For': '192.0.2.2'}))
                     self.assertEqual(response.status, expected)
                     self.assertIn('session', json.load(response))
                 except HTTPError as e:

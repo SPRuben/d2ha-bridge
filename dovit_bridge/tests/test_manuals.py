@@ -75,7 +75,7 @@ class ManualTests(unittest.TestCase):
                 self.assertEqual((bundled / name).read_bytes(), content, name)
 
     def test_explicit_routes_and_source_ip(self):
-        for peer in ('127.0.0.1', '172.30.32.2'):
+        for peer in ('127.0.0.1', '192.0.2.2'):
             server = make_server(Monitor(), '127.0.0.1', 0, peer)
             thread = threading.Thread(target=server.serve_forever, daemon=True)
             thread.start()
@@ -123,12 +123,12 @@ class ManualTests(unittest.TestCase):
                     self.assertEqual(response.read(), TUTORIAL_JPEG)
 
     def test_tutorial_images_require_actual_ingress_peer_before_file_access(self):
-        with self.tutorial_server(peer='172.30.32.2') as (base, _, names):
+        with self.tutorial_server(peer='192.0.2.2') as (base, _, names):
             with patch('pathlib.Path.read_bytes', side_effect=AssertionError('Wrong peer must not read assets')):
                 for name in names:
                     with self.subTest(name=name):
                         request = Request(base + '/manuals/images/' + name,
-                                          headers={'X-Forwarded-For': '172.30.32.2'})
+                                          headers={'X-Forwarded-For': '192.0.2.2'})
                         self.assert_http_error(request, 403)
 
     def test_tutorial_images_refuse_unknown_encoded_and_traversal_paths(self):

@@ -20,8 +20,8 @@ def availability_fields(*evidence_topics: str) -> Dict[str, Any]:
 def discovery_device(node_id: str) -> Dict[str, Any]:
     return {
         "identifiers": [node_id],
-        "name": "Dovit Bridge",
-        "manufacturer": "Dovit",
+        "name": "D2HA Bridge",
+        "manufacturer": "Independent community project",
         "model": "TCP 6060 XML bridge",
     }
 

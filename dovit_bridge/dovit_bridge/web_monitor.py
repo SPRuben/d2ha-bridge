@@ -4,6 +4,7 @@ from datetime import datetime, timezone
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 import json
 import logging
+import socket
 from pathlib import Path
 import threading
 import uuid
@@ -16,6 +17,13 @@ TUTORIAL_IMAGE_ROUTES = frozenset(
     for name in ('devices-overview', 'setup-dovit', 'setup-mqtt', 'setup-publication',
                  'device-assignment', 'diagnosis', 'json-review', 'recovery')
     for language in ('de', 'fr')
+)
+
+
+BRANDING_IMAGE_ROUTES = frozenset(
+    '/branding/' + name for name in (
+        'favicon-32.png', 'favicon-64.png', 'apple-touch-icon.png',
+        'android-chrome-192.png', 'android-chrome-512.png', 'icon-light.png')
 )
 
 
@@ -163,12 +171,24 @@ class Monitor:
                         events=[enrich(e) for e in self.events], capacity=500)
 
 
-def make_server(monitor, host='0.0.0.0', port=8099, allowed_peer='172.30.32.2'):
+def make_server(monitor, host='0.0.0.0', port=8099, allowed_peer=None):
     assets = Path(__file__).with_name('web')
+
+    def peer_allowed(address):
+        # An explicit peer is used only by local previews/tests. Production
+        # resolves the Supervisor on every request, including after DNS changes.
+        if allowed_peer is not None:
+            return address == allowed_peer
+        try:
+            peers = socket.getaddrinfo('supervisor', None, socket.AF_INET,
+                                       socket.SOCK_STREAM)
+        except OSError:
+            return False  # DNS failure must never open access to other peers.
+        return address in {peer[4][0] for peer in peers}
 
     class Handler(BaseHTTPRequestHandler):
         def do_POST(self):
-            if self.client_address[0] != allowed_peer or self.headers.get('X-Dovit-Token') != monitor.session:
+            if not peer_allowed(self.client_address[0]) or self.headers.get('X-Dovit-Token') != monitor.session:
                 self.send_error(403)
                 return
             if self.path not in ('/api/drafts/validate', '/api/drafts/save', '/api/lights/command', '/api/controls/command',
@@ -239,7 +259,7 @@ def make_server(monitor, host='0.0.0.0', port=8099, allowed_peer='172.30.32.2'):
 
         def do_GET(self):
             # Trust the TCP peer, never a spoofable forwarded header.
-            if self.client_address[0] != allowed_peer:
+            if not peer_allowed(self.client_address[0]):
                 self.send_error(403)
                 return
             path = self.path.split('?', 1)[0]
@@ -283,7 +303,10 @@ def make_server(monitor, host='0.0.0.0', port=8099, allowed_peer='172.30.32.2'):
                     self.send_error(404)
                     return
                 mime = 'image/jpeg'
-            elif path in ('/help.js', '/help.css', '/devices.js', '/json-editor.js', '/recovery.js', '/recovery.css', '/setup.js', '/change-review.js', '/onboarding.js', '/onboarding.css'):
+            elif path in BRANDING_IMAGE_ROUTES:
+                data = (assets / 'branding' / path.rsplit('/', 1)[1]).read_bytes()
+                mime = 'image/png'
+            elif path in ('/brand.css', '/help.js', '/help.css', '/devices.js', '/json-editor.js', '/recovery.js', '/recovery.css', '/setup.js', '/change-review.js', '/onboarding.js', '/onboarding.css'):
                 data = (assets / path[1:]).read_bytes()
                 mime = 'text/javascript' if path.endswith('.js') else 'text/css'
             elif path in ('/', '/index.html', '/app.js', '/i18n.js', '/style.css', '/mapping.css'):
@@ -296,7 +319,7 @@ def make_server(monitor, host='0.0.0.0', port=8099, allowed_peer='172.30.32.2'):
                 self.send_error(404)
                 return
             self.send_response(200)
-            self.send_header('Content-Type', mime if mime == 'image/jpeg' else mime + '; charset=utf-8')
+            self.send_header('Content-Type', mime if mime.startswith('image/') else mime + '; charset=utf-8')
             self.send_header('Content-Length', str(len(data)))
             self.send_header('Cache-Control', 'no-store')
             self.send_header('X-Content-Type-Options', 'nosniff')

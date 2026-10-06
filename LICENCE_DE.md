@@ -1,4 +1,4 @@
-# Nutzungsbedingungen der Dovit Bridge
+# Nutzungsbedingungen der D2HA Bridge
 
 Diese deutsche Erläuterung fasst die maßgebliche englische [LICENSE](LICENSE)
 zusammen. Bei Abweichungen gilt der englische Lizenztext, soweit gesetzlich
