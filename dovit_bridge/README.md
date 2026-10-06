@@ -8,7 +8,7 @@ Install the repository `https://github.com/SPRuben/d2ha-bridge` through Home Ass
 
 Read [DOCS.md](DOCS.md) for first installation, MQTT publication, mapping, migration and optional HomeKit. Read [CHANGELOG.md](CHANGELOG.md) for the 3.0.0 rebrand/packaging and inherited runtime changes and the public package's verification limits.
 
-3.0.0 is a release candidate; images are prepared, not yet published. After release HA uses prebuilt GHCR images on both architectures. Ingress uses internal port 8099 with no host port or host networking. Phase 1 keeps `slug: local_dovit_bridge`. Existing users keep the same app/repository entry and private configuration; new users use the new repository URL. See [migration and rollback](../docs/MIGRATION_D2HA.md).
+3.0.0 is an experimental Phase 1 prerelease. HA uses prebuilt versioned GHCR images on both architectures. Ingress uses internal port 8099 with no host port or host networking. Phase 1 keeps `slug: local_dovit_bridge`. Existing users keep the same app/repository entry and private configuration; new users use the new repository URL. See [migration and rollback](../docs/MIGRATION_D2HA.md).
 
 Each home needs its own Dovit endpoint and verified mapping. No active household mapping is distributed. The unconfigured Dovit host `127.0.0.1` and empty MQTT credentials must be replaced with your own settings. With a missing mapping file, first start opens restricted recovery; it does not connect to Dovit or MQTT.
 

@@ -7,12 +7,16 @@ This release changes the public product name and artwork. It deliberately keeps 
 1. Create a full HA backup before updating. Save the actual app options, private `/data/dovit_setup.json` and its backups, your active `/share/dovit_devices.json`, `/share/dovit_cover_positions.json`, pending editor changes and relevant adjacent backups. Keep credentials/household data private. Record current entity IDs and HomeKit associations.
 2. Keep the same app and installation source. Existing repository users keep `https://github.com/SPRuben/dovit-bridge` in HA after GitHub renames it. GitHub redirects the old URL; changing HA's configured URL can change the repository prefix and create another app. New users use `https://github.com/SPRuben/d2ha-bridge`.
 3. Existing local installations remain local. The current app directory/package stays `dovit_bridge/` and `slug: local_dovit_bridge` stays unchanged. Installing from GitHub instead is a separate migration of app-specific `/data`, even with the same slug. This rebrand does not transfer local data into a different installation source.
-4. When images are published and the update is available, stop the existing app, update that same app and start it manually. Keep its existing options and private files. Never start two bridges against the same Dovit/MQTT installation.
+4. When the update is available, stop the existing app, update that same app and start it manually. Keep its existing options and private files. Never start two bridges against the same Dovit/MQTT installation.
 5. Check stored options/overrides, logs, Dovit and MQTT connections, Ingress title, original entity/device IDs and absence of duplicates. Confirm existing dashboards/automations and HomeKit accessories still refer to the same HA entities. Perform physical controls only deliberately, on site and with permission. No re-pairing, discovery reset or registry rename is required by this branding change.
 
 Shared mappings must not be replaced by the empty public seed. A new recovery page in an existing home is a reason to verify/restore the actual configured path, not initialize an empty home. Web overrides still take precedence over corresponding app options.
 
-Real update-in-place, HA entities, Supervisor/Ingress, LAN/hardware and HomeKit acceptance have not yet been performed for 3.0.0. A retained slug alone is not proof of live migration success.
+The maintainer reports the existing local 3.0 installation is running. Independent update-in-place, new-installation, HA entity/automation, Supervisor/Ingress, LAN/hardware and HomeKit acceptance remains pending. A retained slug alone is not proof of live migration success.
+
+## Sidebar still shows the former name
+
+The app configuration sets both `name` and `panel_title` to **D2HA Bridge**. The sidebar title does not require a new slug. Reload the app store metadata, turn **Show in sidebar** off and on for the same installed app, then reload the browser. This re-registers the existing Ingress panel without reinstalling the app or changing MQTT identities. If the former title remains, inspect the installed app metadata and HA/Supervisor logs before considering further action. Do not change the slug or edit HA registry/private storage to fix a display label.
 
 ## Preserved compatibility surfaces
 

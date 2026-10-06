@@ -103,7 +103,7 @@ Dovit-, MQTT- und Vorschauports nicht ins Internet freigeben.
 4. MQTT-Broker starten und einen gültigen, für MQTT geeigneten Benutzer einrichten. Platzhalter wie `mqtt-user` sind keine zugesicherten Zugangsdaten.
 5. Unter Einstellungen > Geräte & Dienste die MQTT-Integration einrichten oder ihre Verbindung prüfen. Broker und Integration sind zwei unterschiedliche Bausteine.
 
-3.0.0 ist zunächst ein vorbereiteter Release-Kandidat. Nach Veröffentlichung nutzt die App öffentliche GHCR-Images für amd64/aarch64. Ingress bleibt auf internem Port 8099 ohne Host-Port. Der Slug `local_dovit_bridge` bleibt erhalten. Bestehende Nutzer behalten dieselbe App und den bisherigen Repository-Eintrag; eine lokale Installation bleibt lokal. Die neue URL oben gilt nur für neue Installationen. HA-Backup und eigene Daten vor jedem Update sichern. Details: https://github.com/SPRuben/d2ha-bridge/blob/main/docs/MIGRATION_D2HA.md
+3.0.0 ist eine experimentelle Vorabversion des Phase-1-Rebrandings. Die App nutzt öffentliche, versionierte GHCR-Images für amd64/aarch64. Ingress bleibt auf internem Port 8099 ohne Host-Port. Der Slug `local_dovit_bridge` bleibt erhalten. Bestehende Nutzer behalten dieselbe App und den bisherigen Repository-Eintrag; eine lokale Installation bleibt lokal. Die neue URL oben gilt nur für neue Installationen. HA-Backup und eigene Daten vor jedem Update sichern. Details: https://github.com/SPRuben/d2ha-bridge/blob/main/docs/MIGRATION_D2HA.md
 Details zur MQTT-Einrichtung: https://www.home-assistant.io/integrations/mqtt
 
 ### 3. Basisoptionen vor dem Start festlegen

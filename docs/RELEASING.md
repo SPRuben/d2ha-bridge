@@ -1,15 +1,17 @@
 # Release 3.0.0
 
-This checkout prepares the release; it does not publish a tag, a GitHub Release,
-or GHCR images. Keep the current public installation usable until images exist.
+This document records the publication procedure for the experimental 3.0.0
+prerelease and future maintenance. The workflow publishes versioned images;
+GitHub Releases are created separately after verification. Keep the current
+public installation usable until the replacement images are publicly available.
 The `image` field instructs HA to pull `ghcr.io/spruben/d2ha-bridge:3.0.0`; HA
 will not build a fallback if that image is missing or private.
 
 ## Repository rename and owner tasks
 
-Rename the existing repository to `d2ha-bridge`; never delete/recreate it. Verify the same repository ID, history and default branch, then update the local remote. Keep the old GitHub name unused so redirects continue working. Existing HA users keep their stored old repository URL. New installs use the new URL. A repository rename does not rename an existing GHCR package; this release prepares the separate `d2ha-bridge` package.
+The existing repository was renamed to `d2ha-bridge`, retaining its repository ID and history. Never delete/recreate it. Verify the same repository ID, history and default branch when checking the rename. Keep the old GitHub name unused so redirects continue working. Existing HA users keep their stored old repository URL. New installs use the new URL. A repository rename does not rename an existing GHCR package; this release uses the separate `d2ha-bridge` package.
 
-Set the About description to `Independent Dovit TCP/XML to MQTT bridge for Home Assistant` and upload the supplied social preview through Settings. No GitHub Release, tag, package publication or HA deployment is part of local preparation.
+The About description and supplied social preview use D2HA Bridge branding. Update those display assets through repository Settings when artwork changes. Preserve existing HA installations and configured repository URLs.
 
 ## First GHCR publication
 

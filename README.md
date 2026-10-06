@@ -6,7 +6,7 @@ D2HA Bridge is an independent Home Assistant bridge for compatible Dovit home-au
 
 D2HA Bridge is an independent, unofficial community project. It is not affiliated with, endorsed by, or sponsored by Dovit or RISCO Group. Dovit and related marks are the property of their respective owners.
 
-**3.0.0 is a Phase 1 rebrand release candidate**, marked experimental. Protocol, commands, topics, IDs and mapping formats remain compatible with 2.2. Real HA/Supervisor/Ingress, Dovit hardware and HomeKit acceptance are still pending. This checkout prepares the release; it has not published 3.0.0 or its images. Maintainers must complete [release preparation](docs/RELEASING.md) before making it available in the store.
+**3.0.0 is the Phase 1 rebrand prerelease**, marked experimental. Protocol, commands, topics, IDs and mapping formats remain compatible with 2.2. The maintainer reports the local 3.0 installation is running; independent HA/Supervisor/Ingress, new-installation, Dovit hardware, entity/automation and HomeKit acceptance remains pending. See [release checks and publication](docs/RELEASING.md).
 
 **License:** Free noncommercial use of the unchanged software is allowed. Program/documentation changes and commercial use require prior written permission; commercial permission requires a separate agreement on use and compensation. Your own configuration and device mappings are allowed and remain yours. Read the [license](LICENSE) and [German explanation](LICENCE_DE.md). This is source available under custom terms, not an open source license; no automatic fee is set.
 
@@ -26,7 +26,7 @@ Requires Home Assistant OS with Supervisor/app store, administrator access, `amd
 
 1. Open **Settings → Apps → App store → ⋮ → Repositories**. Older HA versions call apps “add-ons”.
 2. Add `https://github.com/SPRuben/d2ha-bridge` and refresh the store.
-3. Select **D2HA Bridge** and install the available released version. Once 3.0.0 is published, HA downloads `ghcr.io/spruben/d2ha-bridge:3.0.0` for your architecture; it does not build a local fallback if this image is unavailable.
+3. Select **D2HA Bridge** and install the available released version. Version 3.0.0 downloads `ghcr.io/spruben/d2ha-bridge:3.0.0` for your architecture; it does not build a local fallback if this image is unavailable.
 4. Configure your own Dovit host/port and MQTT connection. `127.0.0.1` is an unconfigured Dovit default and refers to the container itself; MQTT credentials are empty.
 5. Start and open the web interface through HA Ingress. A missing mapping starts restricted recovery without Dovit/MQTT connections. Only for a genuinely new installation choose **Neue Installation vorbereiten**, validate the empty mapping and explicitly consent. Existing users restore their own mapping instead. Restart manually.
 6. Map your own devices, review changes and restart when requested. Keep `enable_discovery: false` for a controlled setup; enable publication of known devices with `publish_discovery: true` after checking your mapping. MQTT connection alone does not create entities.
@@ -39,7 +39,7 @@ The supplied `dovit_devices.json` contains only empty categories. No credentials
 
 **Bestehende Installation:** HA-Backup und eigene Dateien sichern, bisherigen Repository-Eintrag und App-Slug behalten und dieselbe App aktualisieren. Eine lokale Installation bleibt zunächst lokal. Kein erneutes Hinzufügen unter der neuen URL, keine leere Neuinstallation und kein Zurücksetzen der Entitäten/HomeKit-Verknüpfungen. Details: [Migration](docs/MIGRATION_D2HA.md).
 
-**Neue Installation:** Unter **Einstellungen → Apps → App-Store → ⋮ → Repositories** `https://github.com/SPRuben/d2ha-bridge` hinzufügen und **D2HA Bridge** installieren, sobald die Version veröffentlicht ist. Eigene Dovit-Adresse/MQTT-Verbindung eintragen. Ohne Gerätedatei erscheint Recovery: Nur bei einer tatsächlich neuen Anlage **Neue Installation vorbereiten** wählen, prüfen und bestätigen; sonst eigene Sicherung wiederherstellen. Danach neu starten, eigene Geräte zuordnen und bekannte Geräte per MQTT veröffentlichen.
+**Neue Installation:** Unter **Einstellungen → Apps → App-Store → ⋮ → Repositories** `https://github.com/SPRuben/d2ha-bridge` hinzufügen und **D2HA Bridge** als experimentelle Version 3.0.0 installieren. Eigene Dovit-Adresse/MQTT-Verbindung eintragen. Ohne Gerätedatei erscheint Recovery: Nur bei einer tatsächlich neuen Anlage **Neue Installation vorbereiten** wählen, prüfen und bestätigen; sonst eigene Sicherung wiederherstellen. Danach neu starten, eigene Geräte zuordnen und bekannte Geräte per MQTT veröffentlichen.
 
 ## Documentation
 

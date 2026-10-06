@@ -16,12 +16,13 @@ Ingress prüft den tatsächlichen TCP-Peer gegen die aktuell per DNS aufgelöste
 Supervisor-Adresse. DNS-Fehler verweigern Zugriff; Header ersetzen diese Prüfung
 nicht. Keine zusätzliche Supervisor-API-Berechtigung.
 
-Python 3.11.17/Alpine 3.23 ist per Multi-Arch-Digest festgelegt. Vorbereitete
+Python 3.11.17/Alpine 3.23 ist per Multi-Arch-Digest festgelegt. Versionierte
 GHCR-Images und CI unterstützen amd64/aarch64. Phase 1 ändert keine App-/MQTT-/Speicheridentität.
 Bestehende HA-Repository-URLs und die Installationsquelle müssen erhalten bleiben;
 ein Wechsel von lokal zur Repository-App wäre eine separate Datenmigration.
-Freigabereihenfolge: docs/RELEASING.md. Echte HA-/Ingress-/Hardware-/HomeKit-
-Abnahme und GHCR-Veröffentlichung stehen noch aus.
+Freigabereihenfolge: docs/RELEASING.md. Der Betreiber meldet seine lokale 3.0-
+Installation als laufend; unabhängige HA-/Ingress-/Hardware-/HomeKit-Abnahme
+und die Installation auf einem neuen HA-System stehen noch aus.
 
 D2HA Bridge is an independent, unofficial community project. It is not affiliated with, endorsed by, or sponsored by Dovit or RISCO Group. Dovit and related marks are the property of their respective owners.
 
