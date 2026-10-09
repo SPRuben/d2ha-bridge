@@ -24,6 +24,10 @@ jobs:
   checks:
     runs-on: ubuntu-24.04
     timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        app: [dovit_bridge, d2ha_bridge]
     env:
       PYTHONDONTWRITEBYTECODE: '1'
     steps:
@@ -37,20 +41,20 @@ jobs:
         with:
           node-version: '24'
       - name: Install test dependencies
-        run: python -m pip install -r dovit_bridge/requirements.txt -r dovit_bridge/integration_tests/requirements.txt -r scripts/requirements-ci.txt
+        run: python -m pip install -r d2ha_bridge/requirements.txt -r d2ha_bridge/integration_tests/requirements.txt -r scripts/requirements-ci.txt
       - name: Configuration, Python syntax, empty seed, links and privacy
-        run: python scripts/check_repository.py
+        run: python scripts/check_repository.py --app ${{ matrix.app }}
       - name: Complete Python suite
-        working-directory: dovit_bridge
+        working-directory: ${{ matrix.app }}
         run: python -m unittest discover -s tests -v
       - name: JavaScript syntax and complete Node suite
-        working-directory: dovit_bridge
+        working-directory: ${{ matrix.app }}
         run: |
           set -euo pipefail
           for file in dovit_bridge/web/*.js; do node --check "$file"; done
           for file in tests/*.cjs; do node "$file"; done
       - name: Isolated loopback MQTT and TLS integration
-        working-directory: dovit_bridge
+        working-directory: ${{ matrix.app }}
         run: |
           python integration_tests/test_loopback_broker.py --run-loopback
           python integration_tests/test_loopback_tls.py --run-loopback
@@ -79,14 +83,14 @@ jobs:
         run: |
           python -m pip install -r scripts/requirements-ci.txt
           python scripts/check_repository.py --inventory "$RUNNER_TEMP/inventory.csv"
-          python -c 'import yaml,os; version=yaml.safe_load(open("dovit_bridge/config.yaml"))["version"]; print("version="+version, file=open(os.environ["GITHUB_OUTPUT"],"a"))'
+          python -c 'import yaml,os; version=yaml.safe_load(open("d2ha_bridge/config.yaml"))["version"]; print("version="+version, file=open(os.environ["GITHUB_OUTPUT"],"a"))'
       - uses: docker/setup-qemu-action@c7c53464625b32c7a7e944ae62b3e17d2b600130 # v3
         with:
           platforms: arm64
       - uses: docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f # v3
       - uses: docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8 # v6
         with:
-          context: dovit_bridge
+          context: d2ha_bridge
           platforms: ${{ matrix.platform }}
           push: false
           load: true
@@ -101,7 +105,7 @@ jobs:
             --add-host supervisor:192.0.2.2 \
             --tmpfs /data --tmpfs /share \
             --mount "type=bind,src=$RUNNER_TEMP/inventory.csv,dst=/inventory.csv,readonly" \
-            --mount "type=bind,src=$GITHUB_WORKSPACE/dovit_bridge/integration_tests,dst=/verification,readonly" \
+            --mount "type=bind,src=$GITHUB_WORKSPACE/d2ha_bridge/integration_tests,dst=/verification,readonly" \
             d2ha-bridge:ci python /verification/test_container_startup.py
 
   publish:
@@ -126,7 +130,7 @@ jobs:
           python scripts/check_repository.py
           python - <<'PY'
           import os, yaml
-          version = yaml.safe_load(open('dovit_bridge/config.yaml'))['version']
+          version = yaml.safe_load(open('d2ha_bridge/config.yaml'))['version']
           if os.environ['GITHUB_REF_TYPE'] == 'tag':
               assert os.environ['GITHUB_REF_NAME'] == 'v' + version, 'Tag and app version differ'
           with open(os.environ['GITHUB_OUTPUT'], 'a') as output:
@@ -145,7 +149,7 @@ jobs:
         id: amd64
         uses: docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8 # v6
         with:
-          context: dovit_bridge
+          context: d2ha_bridge
           platforms: linux/amd64
           push: true
           tags: ghcr.io/spruben/d2ha-bridge:${{ steps.app.outputs.version }}-amd64
@@ -156,7 +160,7 @@ jobs:
         id: aarch64
         uses: docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8 # v6
         with:
-          context: dovit_bridge
+          context: d2ha_bridge
           platforms: linux/arm64
           push: true
           tags: ghcr.io/spruben/d2ha-bridge:${{ steps.app.outputs.version }}-aarch64

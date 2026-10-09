@@ -1,0 +1,2 @@
+# Match the Paho version used by the loopback MQTT integration suite.
+paho-mqtt==2.1.0

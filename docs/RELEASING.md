@@ -1,84 +1,28 @@
-# Release 3.0.0
+# Release preparation 3.1.0
 
-This document records the publication procedure for the experimental 3.0.0
-prerelease and future maintenance. The workflow publishes versioned images;
-GitHub Releases are created separately after verification. Keep the current
-public installation usable until the replacement images are publicly available.
-The `image` field instructs HA to pull `ghcr.io/spruben/d2ha-bridge:3.0.0`; HA
-will not build a fallback if that image is missing or private.
+3.1.0 is the separate Phase 2 app identity. The complete 3.0.0 app definition and released image remain unchanged for rollback. This candidate is not yet published; do not advertise a usable 3.1 store entry until its images are publicly verified. Actual HA migration acceptance remains pending, so retain experimental/prerelease status.
 
-## Repository rename and owner tasks
+## Validate and prepare
 
-The existing repository was renamed to `d2ha-bridge`, retaining its repository ID and history. Never delete/recreate it. Verify the same repository ID, history and default branch when checking the rename. Keep the old GitHub name unused so redirects continue working. Existing HA users keep their stored old repository URL. New installs use the new URL. A repository rename does not rename an existing GHCR package; this release uses the separate `d2ha-bridge` package.
+1. Review the [migration procedure](MIGRATION_3_1.md), private data access, current complete HA backup and single-bridge rollback. Private bundles and real mappings must never enter the public repository/images/Actions artifacts.
+2. Run `python scripts/check_repository.py --app dovit_bridge` and `python scripts/check_repository.py --app d2ha_bridge`. Both apps retain frozen compatibility surfaces; the 135 legacy app files are checked byte-for-byte. Do not disable the Phase 1 legacy slug guard.
+3. Run the complete Python suite, all Node suites and JS syntax checks from each app folder. The new app adds synthetic stopped-snapshot transfer, error, identity, archive and rollback checks. Run both existing isolated MQTT/TLS integration suites with disposable loopback brokers.
+4. Build the **new** app from `d2ha_bridge` for `linux/amd64` and `linux/arm64`, passing matching `BUILD_ARCH` and `BUILD_VERSION=3.1.0`. Verify exact production inventories/dependencies/restricted startup with `--network none`, fresh `/data` and `/share` tmpfs and documentation-only Supervisor DNS. ARM may use emulation; record that limit.
+5. Generate [release notes](../release/v3.1.0.md) from [the new changelog](../d2ha_bridge/CHANGELOG.md): `python scripts/check_repository.py --release-notes release/v3.1.0.md`. Review diff/privacy, create a fresh verified local backup, then commit the release branch. Preserve all previous tags/releases and the existing repository ID/history.
 
-The About description and supplied social preview use D2HA Bridge branding. Update those display assets through repository Settings when artwork changes. Preserve existing HA installations and configured repository URLs.
+## Publication after authorization
 
-## First GHCR publication
+1. Push the reviewed release branch and check PR CI. Keep main on its previous usable release until replacement images exist. No personal credentials or new repository secrets are required.
+2. Create annotated `v3.1.0` at the exact tested commit and push that tag, or explicitly dispatch CI with `publish: true`. Ordinary PR/main runs never publish. Tag/version must match the **new** app. Publishing is a separate authorized release action; preparation does not perform it.
+3. CI tests both app definitions and builds the new app on amd64/aarch64. Publish `ghcr.io/spruben/d2ha-bridge:3.1.0-amd64` and `:3.1.0-aarch64`, then create the exact-digest `:3.1.0` manifest. Do not overwrite 3.0.0 or add a moving latest tag.
+4. Confirm package Public/repository association and anonymously pull both architectures using an empty Docker auth environment. Verify labels, content, dependencies and isolated startup. Authenticated Actions success alone does not establish HA download access.
+5. Merge the exact reviewed/tagged source to main. Both legacy `dovit_bridge` and new `d2ha_bridge` definitions stay present. Existing configured HA repository URLs remain unchanged; local installations remain local. The new default is manual boot. Never start both bridges against the same home.
+6. Create the GitHub prerelease for existing tag `v3.1.0` using the generated notes. CI does not create a GitHub Release. Report real HA/Ingress/Dovit/MQTT/entity/HomeKit tests accurately; offline tests are not live acceptance.
 
-1. Review the changes and commit them on a release branch. Push that branch,
-   keeping `main` at the previous release until the image is ready.
-2. Enable GitHub Actions for the repository. Permit the workflow's `packages:
-   write` permission. It uses the short-lived `GITHUB_TOKEN`; do not add personal
-   credentials, broker passwords or registry tokens to source files.
-3. Create the annotated Git tag `v3.0.0` at that reviewed commit and push the tag.
-   This explicit release action starts CI and, only after all checks and both
-   architecture builds pass, publishes images. A manual workflow run with
-   `publish: true` is also supported once the workflow is registered on the
-   default branch. Ordinary PRs and pushes to `main` never publish images.
-4. Check the CI and publishing jobs. The workflow uploads `3.0.0-amd64` and
-   `3.0.0-aarch64`, then creates `3.0.0` from their exact digests. Confirm the
-   final manifest contains `linux/amd64` and `linux/arm64`. No `latest` tag is
-   used. Do not replace an already released version with different source.
-5. In GitHub's package settings, set the `d2ha-bridge` container package to
-   **Public** and verify its association with this repository. New packages
-   can initially be private even when their repository is public.
-6. From an unauthenticated environment verify `docker pull --platform
-   linux/amd64 ghcr.io/spruben/d2ha-bridge:3.0.0` and the equivalent
-   `--platform linux/arm64` pull. An authenticated Actions pull alone is not
-   proof that Home Assistant users can download the package.
-7. Merge/fast-forward the exact tagged commit into `main`. Refresh the custom
-   HA app repository and check installation on both architectures. Keep the legacy app slug and existing configured HA repository URL.
-   Existing local installs remain local. Check update-in-place, mappings, MQTT
-   entity/device IDs, Ingress and HomeKit before declaring migration success.
-8. Create the GitHub Release for existing tag `v3.0.0`. Use
-   [the prepared release notes](../release/v3.0.0.md), generated from
-   [the app changelog](../dovit_bridge/CHANGELOG.md). Keep it marked as a
-   prerelease while the app is experimental and live acceptance is pending.
+The HA `image` field pulls the tag selected by the app's version. Missing/private 3.1 images do not fall back to a local build. An explicitly prepared **private local** deployment variant omits only that image reference and uses the same empty public seed; it must not be published as a household image.
 
-No workflow creates a GitHub Release automatically. If a publish attempt fails,
-leave `main` unchanged and resolve it before inviting installations.
+## Security maintenance
 
-## Local checks and maintenance
+The pinned Python 3.11.17/Alpine 3.23 multi-arch digest, Paho 2.1.0 and pinned CI Actions are retained. Update them deliberately with full verification when needed; version pinning does not itself deliver future security updates. Ingress remains internal, with no host ports and a dynamically resolved Supervisor peer guard. No additional HA/Docker privileges are introduced.
 
-Use Python 3.11 with `dovit_bridge/requirements.txt`,
-`dovit_bridge/integration_tests/requirements.txt` and
-`scripts/requirements-ci.txt`. Run `python scripts/check_repository.py`, then
-the complete Python suite from `dovit_bridge` with `python -m unittest discover
--s tests -v`. Run every `tests/*.cjs` file with Node and `node --check` for every
-web JavaScript file. MQTT/TLS integration tests opt in with `--run-loopback`
-and use disposable loopback brokers only.
-
-CI also builds each image with the matching `BUILD_ARCH` and checks exact
-production file hashes, dependencies and restricted startup with
-`--network none` and fresh `/data` and `/share` tmpfs mounts. No build/test
-contacts a real Dovit endpoint or Home Assistant. Ingress authentication tests
-use synthetic DNS answers and loopback HTTP.
-
-The offline startup container maps `supervisor` to the documentation-only
-address `192.0.2.2` in its hosts file. This avoids unavailable external DNS
-while checking that direct loopback HTTP remains forbidden; it is a test
-fixture, not an app configuration or a real Supervisor address.
-
-Update the pinned base tag and its multi-platform digest deliberately for
-security maintenance, retaining Python 3.11 unless a separate migration is
-reviewed. Run both architecture builds and all tests after such changes.
-Pinned images improve repeatability but do not provide security updates by
-themselves. Refresh pinned Actions commits deliberately as well.
-
-Generate notes again after any changelog change:
-`python scripts/check_repository.py --release-notes release/v3.0.0.md`.
-Production inventories and local backups belong outside the public repository.
-
-References: [HA app configuration](https://developers.home-assistant.io/docs/apps/configuration/),
-[HA image publication](https://developers.home-assistant.io/docs/apps/publishing/),
-[GitHub package visibility](https://docs.github.com/en/packages/learn-github-packages/configuring-a-packages-access-control-and-visibility).
+References: [HA app configuration](https://developers.home-assistant.io/docs/apps/configuration/), [HA image publication](https://developers.home-assistant.io/docs/apps/publishing/), [package visibility](https://docs.github.com/en/packages/learn-github-packages/configuring-a-packages-access-control-and-visibility).

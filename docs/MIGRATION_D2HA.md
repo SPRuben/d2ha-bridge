@@ -1,5 +1,7 @@
 # D2HA Bridge 3.0.0 — Phase 1 migration
 
+This document describes the retained 3.0.0 app. For the separate 3.1.0 identity see [Phase 2 migration](MIGRATION_3_1.md).
+
 This release changes the public product name and artwork. It deliberately keeps the existing HA/MQTT/storage identities. Phase 2 is not included.
 
 ## Update an existing installation

@@ -4,7 +4,7 @@ The owner-supplied D2HA branding/migration pack provides these assets. PNG/SVG f
 
 ## Home Assistant app
 
-`icon.png` and `logo.png` are beside `config.yaml` in the existing app folder, as [HA expects](https://developers.home-assistant.io/docs/apps/configuration/). Supplied `@2x` variants are included. The legacy folder and slug remain unchanged for Phase 1. Images are presentation assets and do not affect bridge startup or device identity.
+`icon.png` and `logo.png` are beside `config.yaml` in the existing app folder, as [HA expects](https://developers.home-assistant.io/docs/apps/configuration/). Supplied `@2x` variants are included. The legacy folder and slug remain unchanged for Phase 1. Phase 2 copies the same supplied files unchanged beside the new `d2ha_bridge/config.yaml`; the manifest covers both app definitions. Images are presentation assets and do not affect bridge startup or device identity.
 
 Visual review found that the supplied small 250×100 HA `logo.png` clips the right edge of the word “Bridge”. It is retained unchanged as requested. A corrected owner-supplied export is recommended before final visual acceptance; the README logo and web icon do not have this issue.
 

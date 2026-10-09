@@ -29,3 +29,8 @@ share/
 # Only the intentionally empty public seed is versioned.
 dovit_devices*.json
 !dovit_bridge/dovit_devices.json
+!d2ha_bridge/dovit_devices.json
+*.bundle
+migration-private/
+source-info.json
+target-info.json
