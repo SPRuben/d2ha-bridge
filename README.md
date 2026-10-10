@@ -27,9 +27,9 @@ Keep your HA repository entry, installation source, MQTT/HA identities and priva
 
 The distributed `dovit_devices.json` contains only empty categories. No household mapping, credentials, private options or backups are supplied. Technical configuration keys, file paths and MQTT identifiers stay compatible with existing installations.
 
-## Known limitation: alarm state after restart
+## Alarm state after restart
 
-Some servers do not send the current alarm partition states when a TCP connection opens. Until fresh states arrive, the alarm can appear unavailable in HA and Apple Home even while the server and MQTT are connected. This startup limitation is **not fixed in this candidate**. The bridge does not automatically arm/disarm the alarm or present a stored state as current. See [alarm diagnostics](docs/ALARM_STARTUP.md).
+With mapped alarm partitions, the bridge requests current states after every new TCP connection using the read-only startup synchronization used by the official app. Both configured partition readings were verified on the affected installation without operating the alarm. Availability still requires fresh server readings; stored values are never substituted as current. Compatibility with other server versions is unknown. See [alarm diagnostics](docs/ALARM_STARTUP.md).
 
 ## Network and support
 

@@ -127,7 +127,7 @@ Existing users keep their repository entry, installation source, private data an
 | MQTT disconnected | Correct mode, broker service/host, port, credentials, TLS certificate and protocol. |
 | Connected, but no HA entities | Same broker in HA MQTT integration, checked named mapping and discovery publication enabled; restart after saved configuration changes. |
 | Changed app option has no effect | Corresponding saved web override in `/data/dovit_setup.json` may take precedence. |
-| Alarm unavailable after restart | Some servers do not send initial alarm states; availability waits for fresh readings. This known limitation remains unresolved. See [alarm diagnostics](../docs/ALARM_STARTUP.md). |
+| Alarm unavailable after restart | The bridge requests fresh states on each TCP connection. Check that both configured partition readings arrive; servers rejecting or not supporting the synchronization remain unverified and the alarm stays unavailable. See [alarm diagnostics](../docs/ALARM_STARTUP.md). |
 | HA entity unavailable | Dovit/MQTT transport and fresh state; a historical received value does not prove a current connection. |
 
 Use the integrated **Handbücher / Manuels** and **Diagnose / Diagnostic** views. When reporting a problem, share only redacted logs and configuration excerpts. Never publish MQTT passwords, alarm codes, private setup files or household mappings.

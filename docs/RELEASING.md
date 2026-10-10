@@ -1,6 +1,6 @@
 # D2HA Bridge release checks
 
-Keep the app experimental and the GitHub release a prerelease. Do not claim compatibility with every server or infer hardware/HomeKit acceptance from synthetic tests. The alarm startup limitation is unresolved; publication of this candidate requires a conscious decision about that limitation.
+Keep the app experimental and the GitHub release a prerelease. Do not claim compatibility with every server or infer hardware/HomeKit acceptance from synthetic tests. Verify fresh alarm partition readings after startup/reconnection without physical alarm operations. Keep the unsupported-server fallback unavailable and document the limits of live testing.
 
 1. Review the current changelog, known limitations, private-data exclusions and restorable backups. Keep previous local releases and Git history for rollback.
 2. Run the complete Python and Node suites, JavaScript syntax, repository configuration/privacy/link checks, loopback MQTT/TLS integration and Docker builds/startup checks for amd64/aarch64. ARM checks may use emulation and must be described as such.

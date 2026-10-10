@@ -175,6 +175,10 @@
     "d2ha_bridge/tests/test_onboarding.cjs": {
       "sha256": "d03d4ec25900923f06e2c75569a3feafbe7b15a5bf128d74d904cd1101dcc7e0",
       "reason": "Version assertion updated only; onboarding behavior tests unchanged"
+    },
+    "d2ha_bridge/dovit_bridge/bridge.py": {
+      "sha256": "65a14b717aca596ee8da3fd486c62d0dc9d521ff6b34ab0da51dd313e188e403",
+      "reason": "Only connect_dovit adds the verified official read-only initial sync when alarms are mapped; no stale-state restoration, control, identity, mapping, parser or freshness changes"
     }
   }
 }

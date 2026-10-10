@@ -1,6 +1,6 @@
 # Benutzerhandbuch - D2HA Bridge
 
-**Experimentelle Testversion 3.1.1: Fehler sind möglich; Nutzung auf eigene Gefahr. Kompatibilität mit jeder Dovit-Serverversion ist unbekannt. Nach einem Neustart kann der Alarm mangels frischer Serverwerte in HA/HomeKit nicht verfügbar bleiben. Diese Einschränkung ist noch nicht behoben.**
+**Experimentelle Testversion 3.1.1: Fehler sind möglich; Nutzung auf eigene Gefahr. Kompatibilität mit jeder Dovit-Serverversion ist unbekannt. Bei zugeordneten Alarmpartitionen fragt die Bridge nach jeder TCP-Verbindung frische Zustände über die reine Start-Synchronisierung ab. Ohne gültige Antworten bleibt der Alarm nicht verfügbar; gespeicherte Zustände ersetzen keine aktuellen Werte.**
 
 Unveränderte nichtkommerzielle Nutzung ist kostenlos. Änderungen am Programm
 oder seinen Dokumenten sowie kommerzielle Nutzung brauchen vorher schriftliche

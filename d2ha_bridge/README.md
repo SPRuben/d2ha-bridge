@@ -6,6 +6,6 @@ Connect a compatible TCP/XML endpoint to Home Assistant through MQTT. Install fr
 
 Existing installations must preserve their private options, mappings and HA/MQTT identities. Never run two bridges against the same home. Read [installation](DOCS.md) and [safe updates/data transfer](../docs/EXISTING_INSTALLATIONS.md).
 
-**Known alarm limitation:** After a restart, some servers supply alarm state only after a later state update. HA/HomeKit can show the alarm as unavailable until fresh readings arrive. This candidate does not fix that behavior or automatically operate the alarm. [Details](../docs/ALARM_STARTUP.md).
+**Alarm startup:** Current partition states are requested through the official app’s read-only startup synchronization after every TCP connection. Availability requires fresh replies; no automatic alarm operation or stored-state substitution occurs. Other server versions remain unverified. [Details](../docs/ALARM_STARTUP.md).
 
 Read [the changelog](CHANGELOG.md). Unchanged noncommercial use is free; software/documentation changes and commercial use need prior written permission under the [license](../LICENSE). D2HA Bridge is an independent, unofficial community project.

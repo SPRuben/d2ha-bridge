@@ -1357,6 +1357,15 @@ class DovitBridge:
     # -------------------
     async def connect_dovit(self):
         await self.dovit.connect()
+        if self.alarms:
+            # Official DO.App initial read-only synchronization (default client).
+            # Heartbeats alone deliver changes, not the current alarm readings.
+            # Read responses only after run_bridge has opened the fresh session.
+            await self.dovit.send(
+                b'<hisynch-ask><username>user</username><pw></pw>'
+                b'<clientid>-1</clientid></hisynch-ask>' + self.cfg.frame_sep,
+                expected_writer=self.dovit.writer,
+            )
 
     def send_frame(self, xml_str: str, *, expected_writer=_CAPTURE_WRITER):
         return self._send_frame(xml_str, self._capture_command_writer(expected_writer))

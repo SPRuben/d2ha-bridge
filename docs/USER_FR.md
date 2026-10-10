@@ -1,6 +1,6 @@
 # Guide utilisateur - D2HA Bridge
 
-**Version expérimentale 3.1.1 : erreurs possibles, utilisation à vos risques. La compatibilité avec toutes les versions du serveur Dovit est inconnue. Après un redémarrage, l’alarme peut rester indisponible dans HA/HomeKit faute de nouvelles valeurs du serveur ; cette limite n’est pas corrigée.**
+**Version expérimentale 3.1.1 : erreurs possibles, utilisation à vos risques. La compatibilité avec toutes les versions du serveur Dovit est inconnue. Avec des partitions d’alarme configurées, la synchronisation initiale en lecture seule demande les états actuels après chaque connexion TCP. Sans réponses valides, l’alarme reste indisponible ; les états mémorisés ne remplacent jamais les valeurs actuelles.**
 
 Utilisation non commerciale du logiciel inchangé : gratuite. Les modifications
 du logiciel ou de ses documents et l’usage commercial exigent une permission
