@@ -1,6 +1,6 @@
 # Entwicklerhandbuch - D2HA Bridge
 
-> Tutorial images: historical 2.0 screenshots using simulated data and the former branding; workflows are retained, but these do not show 3.0.0 or a live installation.
+**Experimentelle Testversion 3.1.1: Fehler sind möglich; Nutzung auf eigene Gefahr. Kompatibilität mit jeder Dovit-Serverversion ist unbekannt. Nach einem Neustart kann der Alarm mangels frischer Serverwerte in HA/HomeKit nicht verfügbar bleiben. Diese Einschränkung ist noch nicht behoben.**
 
 Dieses Projekt verwendet eigene Source-Available-Nutzungsbedingungen. Änderungen
 am Programm, an Dokumenten oder Grafiken benötigen vorher die schriftliche
@@ -8,25 +8,17 @@ Erlaubnis des Rechteinhabers, auch für private Änderungen. Kommerzielle Nutzun
 benötigt eine separate schriftliche Vereinbarung. Eigene Konfiguration und
 Gerätezuordnungen sind erlaubt. Lizenz: https://github.com/SPRuben/d2ha-bridge/blob/main/LICENSE
 
-## Veröffentlichung 3.0.0
+## Veröffentlichung
 
-App-Slug bleibt: `local_dovit_bridge`; `io.hass.type="app"`. Die App verwendet das interne
+App-Slug bleibt: `d2ha_bridge`; `io.hass.type="app"`. Die App verwendet das interne
 HA-Netz ohne Host-Portfreigabe; ausgehendes Dovit-TCP/MQTT bleibt konfigurierbar.
 Ingress prüft den tatsächlichen TCP-Peer gegen die aktuell per DNS aufgelöste
 Supervisor-Adresse. DNS-Fehler verweigern Zugriff; Header ersetzen diese Prüfung
 nicht. Keine zusätzliche Supervisor-API-Berechtigung.
 
-Python 3.11.17/Alpine 3.23 ist per Multi-Arch-Digest festgelegt. Versionierte
-GHCR-Images und CI unterstützen amd64/aarch64. Phase 1 ändert keine App-/MQTT-/Speicheridentität.
-Bestehende HA-Repository-URLs und die Installationsquelle müssen erhalten bleiben;
-ein Wechsel von lokal zur Repository-App wäre eine separate Datenmigration.
-Freigabereihenfolge: docs/RELEASING.md. Der Betreiber meldet seine lokale 3.0-
-Installation als laufend; unabhängige HA-/Ingress-/Hardware-/HomeKit-Abnahme
-und die Installation auf einem neuen HA-System stehen noch aus.
+D2HA Bridge is an independent, unofficial community project.
 
-D2HA Bridge is an independent, unofficial community project. It is not affiliated with, endorsed by, or sponsored by Dovit or RISCO Group. Dovit and related marks are the property of their respective owners.
-
-## Produktionsverhalten in 2.2 (eingeführt ab 2.0)
+## Produktionsverhalten
 
 Legacy-MQTT-Rollladenbefehle nutzen `command_statetype` mit Rückfall auf den
 Zustandskanal. Sitzungsschutz und Themen bleiben unverändert. Thermostatbefehle
@@ -50,15 +42,15 @@ Handbücher und Build-Eingaben; Caches, Tests, private Einstellungen und Backups
 bleiben außerhalb des Build-Kontexts. `Dockerfile` ist die maßgebliche Basis,
 eine separate Build-Konfiguration wird nicht mehr verwendet.
 
-Öffentliche Installation und Grenzen: https://github.com/SPRuben/d2ha-bridge/blob/main/dovit_bridge/DOCS.md
-Laufzeit- und Paketverifikation getrennt betrachten; frühere Tests sind in
-dovit_bridge/CHANGELOG.md zusammengefasst. Sie bestätigen keine reale Installation
+Öffentliche Installation und Grenzen: https://github.com/SPRuben/d2ha-bridge/blob/main/d2ha_bridge/DOCS.md
+Laufzeit- und Paketverifikation getrennt betrachten; bekannte Grenzen stehen in
+d2ha_bridge/CHANGELOG.md. Sie bestätigen keine reale Installation
 des öffentlichen Repositorys auf einem neuen HA-System und keine HomeKit-Abnahme.
-Öffentliche Metadaten/Defaults weichen vom früheren lokalen 2.2-Paket ab:
+Öffentliche Metadaten und Defaults:
 experimentell, amd64/aarch64, neutraler Dovit-Host 127.0.0.1 und leere MQTT-Zugangsdaten.
 Keine aktive Hauszuordnung wird mitgeliefert.
 
-## Einrichtung und MQTT-Dienst in 2.2
+## Einrichtung und MQTT-Dienst
 
 `setup_config.SetupConfig` bietet revisionsgebundene private Web-Einstellungen.
 GET `/api/setup` liefert nur manuelle Felder, Passwort-vorhanden und Status;
@@ -78,7 +70,7 @@ Manueller Default bleibt migrationssicher. `/data/dovit_setup.json` hat bei Star
 Vorrang vor korrespondierenden App-Optionen. Laufzeittests sind kein Nachweis
 echter Supervisor-, HA-, HomeKit- oder öffentlicher Repository-Abnahme.
 
-## Wiederherstellung, Klassifizierung und Bereinigung in 2.2
+## Wiederherstellung, Klassifizierung und Bereinigung
 
 Der Start verweigert fehlende/ungültige aktive Zuordnungen,
 bevor Geräteverbindungen gestartet werden, und stellt stattdessen einen eingeschränkten
@@ -124,14 +116,7 @@ Das Einreihen mit QoS1 ist kein PUBACK; weder breit angelegte Wildcard-Bereinigu
 noch das Löschen von Befehls-Topics ist erlaubt. Alarme sind von Zustandsbereinigung ausgenommen; Veröffentlichung allein
 löst keine solche Bereinigung aus.
 
-## Version 1.17
-
-Historischer Ursprung dieser Funktionen: App-Name und panel_title wurden vereinheitlicht.
-Der heutige Name D2HA Bridge gilt seit 3.0.0; der Slug bleibt `local_dovit_bridge`. Ingress und der ausschließlich Administratoren
-vorbehaltene Zugriff bleiben erhalten. Die Sichtbarkeit in der Seitenleiste ist
-eine Supervisor-Benutzereinstellung, kein config.yaml-Schalter: In HA
-„In der Seitenleiste anzeigen“ (Show in sidebar) aktivieren. Es wird keine neue
-Supervisor-API-Berechtigung angefordert.
+## Version
 
 Der neue JSON-Tab liest die konfigurierte Gerätedatei über /api/devices.
 replace_json-Operationen verwenden die Revisionsprüfungen von DeviceEditor,
@@ -177,7 +162,7 @@ bearbeitet noch gelöscht werden. Der kombinierte Alarm-MQTT-Handler und die
 Zustandsaggregation verwenden diese ermittelten IDs. Scharfschalten erfordert
 beide Rollen. Alarmbefehle werden nicht über die Web-Test-API bereitgestellt.
 
-## Inventaränderungen in 1.16
+## Inventaränderungen
 
 `Monitor.configure(..., include_system=True)` ergänzt den rein lesbaren Endpunkt
 39/111 im Live-Inventar und in der Vorschau. Temporäre Editorinventare lassen ihn
@@ -191,11 +176,7 @@ Die Uhrzeitformatierung akzeptiert nur gültige Werte im Format Stunde;Minute;
 Rohwerte bleiben im Ereignisverlauf erhalten. Automatisierte Tests verwenden
 synthetische Daten, niemals reale Dovit- oder HA-Befehle.
 
-
-Aktuelle Paketversion: 3.0.0; Protokoll-/MQTT-Verhalten aus 2.2, nur Discovery-Geräteanzeigename/Hersteller aktualisiert. Historische Versionsüberschriften kennzeichnen
-die Einführung einzelner Funktionen und keine heutige Deployment-Aussage.
-
-## Geräteeditor 1.15
+## Geräteeditor
 
 Bekannte Geräte und unbekannte ID/Statetype-Paare werden getrennt gerendert.
 `GET /api/devices` liefert editierbare Maps, SHA256-Revision und Pending-Status.
@@ -409,12 +390,12 @@ bleiben sprachunabhängig und nutzen UTC.
 ### Integrierte Handbücher
 
 `docs/` im Repository ist die redaktionelle Quelle. Die drei Handbücher werden
-bytegleich nach `dovit_bridge/dovit_bridge/manuals/` kopiert und durch Docker-COPY
+bytegleich nach `d2ha_bridge/dovit_bridge/manuals/` kopiert und durch Docker-COPY
 ausgeliefert. Nach Änderungen beide Kopien synchronisieren. `test_manuals.py`
 prüft Byte-Gleichheit gegen die Quellen, damit ausgelieferte Texte nicht veralten.
-Die 16 festen lokalen JPEG-Abbildungen unter `docs/images/` werden nach
-`dovit_bridge/dovit_bridge/manuals/images/` kopiert; Quellen und ausgelieferte
-Bilddateien müssen ebenfalls bytegleich sein.
+Die aktuellen Handbücher enthalten keine Bildschirmabbildungen. Referenzierte
+Bilder müssen vorhanden und bytegleich zur ausgelieferten Kopie sein. Die
+bestehende begrenzte Bild-Routenfreigabe und ihre Sicherheitstests bleiben erhalten.
 
 Der Server erlaubt ausschließlich `/manuals/USER_DE.md`, `/manuals/USER_FR.md`
 und `/manuals/DEVELOPER.md` sowie die 16 fest freigegebenen JPEG-Pfade unter
@@ -472,7 +453,7 @@ Für einen Rollback zuerst die neue Bridge stoppen und dann tatsächlich gesiche
 Daten/Optionen der alten Installation wiederherstellen. Keine Geräte oder Alarme
 lediglich zur Bestätigung eines Installationsschritts betätigen.
 
-## Binary switches and entity IDs in 2.2
+## Binary switches and entity IDs
 
 The optional switches map is read at startup without changing the existing
 six-value reload_maps API. Discovery uses default_entity_id with the value

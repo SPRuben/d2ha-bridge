@@ -1,13 +1,11 @@
-# D2HA Bridge 3.1.0
+# D2HA Bridge 3.1.1
 
-Experimental Home Assistant app with the new `d2ha_bridge` HA identity. MQTT/HA entity identities, topics, options, mapping, private paths, Web UI and HomeKit behavior remain compatible. The separate legacy 3.0.0 app stays available for rollback.
+**Experimental test release. It may contain errors. Use at your own risk. Compatibility with every Dovit server/firmware version is unknown. Verify your own installation and keep a restorable Home Assistant backup.**
 
-**Existing installation:** This is a private data migration, not an update of the same app. Create a current full HA backup, keep your repository/local source, transfer actual options and private `/data`, preserve shared mappings and start only one bridge. Read [migration and rollback](../docs/MIGRATION_3_1.md) before installing/starting.
+Connect a compatible TCP/XML endpoint to Home Assistant through MQTT. Install from `https://github.com/SPRuben/d2ha-bridge`, configure your own server and MQTT settings, and open the UI through HA Ingress. Supported architectures: amd64/aarch64. Port 8099 remains internal. The supplied device mapping is empty.
 
-**New installation:** Add `https://github.com/SPRuben/d2ha-bridge` through the HA OS app store, choose the 3.1.0 entry after its versioned public GHCR images are available, configure your own Dovit/MQTT settings and start manually. Supported architectures: amd64/aarch64. Port 8099 stays internal to Ingress; no host networking or host ports. The distributed device seed is empty; it must never overwrite an existing home.
+Existing installations must preserve their private options, mappings and HA/MQTT identities. Never run two bridges against the same home. Read [installation](DOCS.md) and [safe updates/data transfer](../docs/EXISTING_INSTALLATIONS.md).
 
-Read [DOCS.md](DOCS.md), [CHANGELOG.md](CHANGELOG.md) and [release preparation](../docs/RELEASING.md). Actual HA/Supervisor/Ingress/LAN/hardware, automation and HomeKit migration acceptance remains pending. The offline migration CLI validates/stages private snapshots; it does not control HA or perform live transfer.
+**Known alarm limitation:** After a restart, some servers supply alarm state only after a later state update. HA/HomeKit can show the alarm as unavailable until fresh readings arrive. This candidate does not fix that behavior or automatically operate the alarm. [Details](../docs/ALARM_STARTUP.md).
 
-**License:** Unchanged noncommercial use is free. Changes to software/documents and commercial use require prior written permission; commercial terms and compensation must be agreed separately. Your own configuration/device data remain yours. See [LICENSE](../LICENSE) and [German explanation](../LICENCE_DE.md). This is source available under custom terms.
-
-D2HA Bridge is an independent, unofficial community project. It is not affiliated with, endorsed by, or sponsored by Dovit or RISCO Group. Dovit and related marks are the property of their respective owners.
+Read [the changelog](CHANGELOG.md). Unchanged noncommercial use is free; software/documentation changes and commercial use need prior written permission under the [license](../LICENSE). D2HA Bridge is an independent, unofficial community project.

@@ -1,7 +1,7 @@
 FROM python:3.11.17-alpine3.23@sha256:924d53e01cee5204d35fbcfb71b6c1568c857d7c31141f960ff6a37e111ecc7f
 
 # Pin the multi-platform index, retaining Python 3.11 and the Alpine runtime.
-ARG BUILD_VERSION="3.1.0"
+ARG BUILD_VERSION="3.1.1"
 ARG BUILD_ARCH="aarch64|amd64"
 
 LABEL io.hass.name="D2HA Bridge" \

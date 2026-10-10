@@ -25,7 +25,8 @@ from .setup_config import FIELDS, apply_setup_overrides, validate_settings
 from .storage import _decode_positions
 
 SOURCE_VERSION = '3.0.0'
-TARGET_VERSION = '3.1.0'
+TARGET_VERSION = '3.1.1'
+COMPATIBLE_TARGET_VERSIONS = ('3.1.0', TARGET_VERSION)
 SOURCE_SLUG = 'local_dovit_bridge'
 TARGET_SLUG = 'd2ha_bridge'
 FLAGS = ('enable_discovery', 'publish_discovery', 'web_light_control', 'web_device_control')
@@ -135,7 +136,8 @@ def supervisor_info(raw, slug, version):
     app_id = info.get('slug')
     require(isinstance(app_id, str) and re.fullmatch(r'[a-z0-9_]+', app_id) is not None
             and app_id.endswith('_' + slug), 'unexpected_app_identity')
-    require(info.get('version') == version, 'unexpected_app_version')
+    allowed_versions = version if isinstance(version, tuple) else (version,)
+    require(info.get('version') in allowed_versions, 'unexpected_app_version')
     require(info.get('state') == 'stopped', 'app_not_stopped')
     require(info.get('boot') == 'manual' and info.get('watchdog') is False
             and info.get('auto_update') is False, 'start_protection_missing')
@@ -335,7 +337,7 @@ def read_bundle(path):
     require(isinstance(manifest, dict) and manifest.get('format') == 'D2HA_PHASE2_TRANSFER'
             and manifest.get('format_version') == 1, 'unsupported_bundle_format')
     require(manifest.get('source_version') == SOURCE_VERSION and
-            manifest.get('target_version') == TARGET_VERSION, 'unexpected_bundle_version')
+            manifest.get('target_version') in COMPATIBLE_TARGET_VERSIONS, 'unexpected_bundle_version')
     records = manifest.get('files')
     require(isinstance(records, list) and all(isinstance(item, dict) and
             isinstance(item.get('path'), str) for item in records),
@@ -384,7 +386,7 @@ def write_private(path, raw):
 
 def stage_bundle(bundle, destination, target_info_raw):
     manifest, blobs = read_bundle(bundle)
-    info, _ = supervisor_info(target_info_raw, TARGET_SLUG, TARGET_VERSION)
+    info, _ = supervisor_info(target_info_raw, TARGET_SLUG, COMPATIBLE_TARGET_VERSIONS)
     require(info['slug'] == manifest['expected_target_app_id'], 'installation_source_changed')
     destination = Path(destination).absolute()
     require(not os.path.lexists(destination), 'staging_destination_exists')

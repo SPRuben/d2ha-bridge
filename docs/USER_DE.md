@@ -1,6 +1,6 @@
 # Benutzerhandbuch - D2HA Bridge
 
-> Tutorial images: historical 2.0 screenshots using simulated data and the former branding; workflows are retained, but these do not show 3.0.0 or a live installation.
+**Experimentelle Testversion 3.1.1: Fehler sind möglich; Nutzung auf eigene Gefahr. Kompatibilität mit jeder Dovit-Serverversion ist unbekannt. Nach einem Neustart kann der Alarm mangels frischer Serverwerte in HA/HomeKit nicht verfügbar bleiben. Diese Einschränkung ist noch nicht behoben.**
 
 Unveränderte nichtkommerzielle Nutzung ist kostenlos. Änderungen am Programm
 oder seinen Dokumenten sowie kommerzielle Nutzung brauchen vorher schriftliche
@@ -8,20 +8,9 @@ Erlaubnis; kommerzielle Bedingungen werden separat vereinbart. Eigene Einstellun
 und Gerätezuordnungen sind erlaubt und bleiben deine Daten.
 Lizenz: https://github.com/SPRuben/d2ha-bridge/blob/main/LICENSE
 
-D2HA Bridge is an independent, unofficial community project. It is not affiliated with, endorsed by, or sponsored by Dovit or RISCO Group. Dovit and related marks are the property of their respective owners.
+D2HA Bridge is an independent, unofficial community project.
 
-## Einstieg in 2.2: Geräte, Einrichtung und Diagnose
-
-Diese Anleitung beschreibt den 2.2-Laufzeitstand im experimentellen öffentlichen Paket.
-Die Installation dieses Repositorys auf einem neuen HA-System und die Kompatibilität
-mit anderen Dovit-Anlagen sind noch nicht live bestätigt. Frühere Release-Hinweise
-stehen am Ende unter „Historische Versionshinweise“.
-Installationsanleitung: https://github.com/SPRuben/d2ha-bridge/blob/main/dovit_bridge/DOCS.md
-
-Die Abbildungen stammen aus der 2.0-Vorschau mit simulierten Geräten und
-Testdaten. Sie helfen bei der Orientierung und belegen keine Verbindung zu
-deiner Dovit-Anlage oder Übernahme in HA/HomeKit. Sichtbare Namen, IDs und
-Einstellungen sind Beispiele.
+## Einstieg: Geräte, Einrichtung und Diagnose
 
 Die drei Hauptbereiche haben unterschiedliche Aufgaben:
 
@@ -47,8 +36,6 @@ und zur Schritt-für-Schritt-Anleitung. Eine Systemuhr allein ist noch kein
 zugeordnetes Hausgerät. Fehlen nur wegen eines Such- oder Kategorienfilters
 Treffer, den Filter prüfen statt eine neue Anlage anzulegen.
 
-![Geräteübersicht mit Filter Lichter](images/devices-overview-de.jpg)
-
 Geräteübersicht: mit dem Filter Lichter die Namen und Beispielzustände der Lichtgeräte vergleichen.
 
 Unter **Diagnose → Einrichtung und Verbindungen** stehen Dovit, die aktuelle
@@ -57,8 +44,6 @@ getrennt. Diese Übersicht liest den laufenden Zustand; sie prüft nicht deine
 ungespeicherten oder vorgemerkten Eingaben und verändert keine Optionen.
 Simulierte, fehlende oder alte Statuswerte sind kein erfolgreicher
 Verbindungsnachweis. HA und Apple Home immer getrennt kontrollieren.
-
-![Diagnose mit Dovit- und MQTT-Status sowie Veröffentlichung](images/diagnosis-de.jpg)
 
 Diagnose: Verbindungen, Zuordnungen und Veröffentlichung getrennt lesen, bevor du ein Verbindungsproblem eingrenzt.
 
@@ -71,7 +56,7 @@ bleibt beim Ansichtswechsel erhalten.
 
 ## Schritt für Schritt: von der Installation zum bearbeiteten Gerät
 
-Diese Schritte gelten für den 2.2-Laufzeitstand. Eine ältere Installation kann
+Diese Schritte gelten für den aktuellen Laufzeitstand. Eine ältere Installation kann
 andere Funktionen oder Beschriftungen haben. Beispieladressen und Zugangsdaten
 sind Platzhalter. Vor Updates die tatsächlichen eigenen Daten und Optionen sichern.
 
@@ -102,9 +87,6 @@ Dovit-, MQTT- und Vorschauports nicht ins Internet freigeben.
 3. Die Store-Liste aktualisieren, D2HA Bridge auswählen und installieren. Öffentliche Architekturen: amd64/aarch64. Eine bisherige lokale Bridge vorher stoppen; beide niemals parallel betreiben. Ihre privaten /data-Einstellungen werden nicht automatisch in die neue Repository-App übertragen.
 4. MQTT-Broker starten und einen gültigen, für MQTT geeigneten Benutzer einrichten. Platzhalter wie `mqtt-user` sind keine zugesicherten Zugangsdaten.
 5. Unter Einstellungen > Geräte & Dienste die MQTT-Integration einrichten oder ihre Verbindung prüfen. Broker und Integration sind zwei unterschiedliche Bausteine.
-
-3.0.0 ist eine experimentelle Vorabversion des Phase-1-Rebrandings. Die App nutzt öffentliche, versionierte GHCR-Images für amd64/aarch64. Ingress bleibt auf internem Port 8099 ohne Host-Port. Der Slug `local_dovit_bridge` bleibt erhalten. Bestehende Nutzer behalten dieselbe App und den bisherigen Repository-Eintrag; eine lokale Installation bleibt lokal. Die neue URL oben gilt nur für neue Installationen. HA-Backup und eigene Daten vor jedem Update sichern. Details: https://github.com/SPRuben/d2ha-bridge/blob/main/docs/MIGRATION_D2HA.md
-Details zur MQTT-Einrichtung: https://www.home-assistant.io/integrations/mqtt
 
 ### 3. Basisoptionen vor dem Start festlegen
 
@@ -184,8 +166,6 @@ Der Assistent baut keine Dovit-/MQTT-Verbindung auf und steuert keine Geräte.
 Offene Vormerkungen können die Wiederherstellung blockieren. Danach selbst
 neu starten. Im normalen Betrieb ist dies kein JSON-Importknopf.
 
-![Wiederherstellungs-Assistent mit Datei, Text und Sicherung als Quellen](images/recovery-de.jpg)
-
 Wiederherstellung: die passende eigene Quelle auswählen und prüfen; die Übernahme folgt erst nach der Geräteübersicht und deiner Bestätigung.
 
 ### 5. Webseite öffnen und in vier Schritten einrichten
@@ -201,15 +181,9 @@ Wiederherstellung: die passende eigene Quelle auswählen und prüfen; die Übern
 | **3 · Zuordnungen** | Mit **Zu den Geräten** vorhandene Zuordnungen prüfen oder ergänzen. Danach wieder **Einrichtung** öffnen; der lokale Einstellungsentwurf bleibt beim Ansichtswechsel erhalten. Geräteänderungen haben ihren eigenen Prüf-/Vormerkablauf. |
 | **4 · Veröffentlichung** | Deine Auswahl `publish_discovery`, die hier unveränderte Option `enable_discovery` und das geplante Ergebnis getrennt lesen. Zusammenfassung prüfen, ausdrücklich bestätigen und **Für nächsten Neustart speichern** wählen. |
 
-![Einrichtung Schritt 1 mit Dovit-Adresse und TCP-Port](images/setup-dovit-de.jpg)
-
 Schritt 1 · Dovit: Adresse und Port in den lokalen Einstellungsentwurf eintragen.
 
-![Einrichtung Schritt 2 mit automatischem oder manuellem MQTT-Modus](images/setup-mqtt-de.jpg)
-
 Schritt 2 · MQTT: den passenden Verbindungsmodus wählen; eigene Brokerangaben gehören in den manuellen Modus.
-
-![Einrichtung Schritt 4 mit Veröffentlichung und Zusammenfassung](images/setup-publication-de.jpg)
 
 Schritt 4 · Veröffentlichung: Auswahl und Zusammenfassung prüfen, bevor du die Einstellungen für den nächsten Neustart speicherst.
 
@@ -264,8 +238,6 @@ Beispiel: Ein Licht im Büro soll als „Büro Licht“ zugeordnet werden.
 7. Die D2HA Bridge bewusst neu starten. Vor Übernahme wird die bisherige Gerätedatei gesichert und erneut geprüft.
 8. Seite neu laden: Das Licht muss unter den bekannten Geräten erscheinen. Mit publish_discovery ein zusätzlich in HA unter MQTT kontrollieren.
 
-![Zuordnung prüfen: lesbare Übersicht und Bestätigung](images/device-assignment-de.jpg)
-
 Zuordnung prüfen: die betroffenen Geräte, Kategorien und Namen in der lesbaren Übersicht kontrollieren, bevor du der Übernahme zustimmst.
 
 Eine Vormerkung ist noch nicht die aktive Konfiguration. Es ist jeweils eine
@@ -318,8 +290,6 @@ Für Anfänger zuerst einen Namen unter **Geräte** grafisch ändern und nach de
 2. Die lesbare Änderungsliste und bei Bedarf **Technische Änderungsdetails** kontrollieren. Erst nach Prüfung bestätigen; Entfernen oder Wechsel einer Identität verlangt zusätzliche Zustimmung.
 3. **Für nächsten Start vormerken** wählen, selbst neu starten und das Ergebnis unter **Geräte** und in HA kontrollieren.
 
-![JSON-Prüfung mit lesbarer Änderungsliste und Bestätigung](images/json-review-de.jpg)
-
 JSON-Prüfung: die betroffenen Geräte und Änderungen in der lesbaren Liste kontrollieren; danach bestätigen und vormerken.
 
 **Zurück zu den Geräten** verlässt den JSON-Bereich, ohne den lokalen Textentwurf
@@ -358,7 +328,7 @@ enthält. Wiederherstellung vor einem Notfall anhand einer sicheren Kopie prüfe
 Für Hilfe Version, betroffene ID/Statetype und einen kurzen Log-Ausschnitt mit
 Zeitstempel angeben. Passwörter, Alarmcode und private Hausdaten vorher entfernen.
 
-## Zuordnungsstatus und Wiederherstellung (2.2)
+## Zuordnungsstatus und Wiederherstellung
 
 - **Beobachtet:** Ein Signal wurde empfangen; sein Gerätetyp ist noch unbekannt.
 - **Abgeleitet:** Eine `TODO_`-Zuordnung stammt aus der bisherigen Erkennung und
@@ -423,7 +393,7 @@ Eine passende Rückmeldung beweist nicht, dass gerade dieser Befehl die Ursache 
 Ohne Rückmeldung prüfen statt blind erneut senden. Keine automatische Wiederholung
 und keine Übertragung nach Wiederverbindung. Echte Tests nur vor Ort und mit Freigabe.
 
-Diese Anleitung beschreibt den 2.2-Laufzeitstand. Vor Updates eigene Daten sichern;
+Diese Anleitung beschreibt den aktuellen Laufzeitstand. Vor Updates eigene Daten sichern;
 die tatsächlich installierte Version in HA prüfen. Die historischen Abschnitte
 bewahren frühere Versionshinweise und ersetzen nicht den aktuellen Einrichtungsablauf.
 
@@ -713,11 +683,7 @@ Entfernte Geräte können deshalb weiterhin in HA sichtbar sein; ihre Bereinigun
 ist ein separater Schritt. Auch wird keine Geräte-Datei allein durch die
 Veröffentlichung neu geschrieben.
 
-Die Trennung von Suche und Veröffentlichung wurde ab **1.19** dokumentiert
-und gilt weiter in **2.2**. Daraus folgt keine bestätigte Installation oder
-Live-Abnahme des öffentlichen Pakets auf deiner HA-Anlage.
-
-## Geräteübersicht in 2.2
+## Geräteübersicht
 
 Bekannte Geräte zeigen zuerst ihren zuletzt gemeldeten Zustand und, soweit
 verfügbar, dessen Empfangszeitpunkt in deiner Browser-Zeitzone. Das ist keine
@@ -741,18 +707,7 @@ Alarme bleiben geschützt; es gibt keine Alarm-Teststeuerung.
 Neue Zuordnungen werden weiterhin erst nach dem Bridge-Neustart übernommen.
 Die tatsächliche installierte Version und die Übernahme in HA selbst prüfen.
 
-## Historische Versionshinweise (1.17 und 1.16)
-
-Die folgenden Hinweise bleiben als Entwicklungsgeschichte erhalten. Ihre damaligen
-Beschriftungen und Navigationswege beschreiben nicht den aktuellen 3.0.0-Einstieg.
-Ergänzungen aus 1.19 sind ebenfalls historische Herkunftshinweise, keine Zusage
-zur tatsächlich installierten HA-Version. Für den heutigen Ablauf die Anleitung
-oben verwenden.
-
-### Neu in 1.17
-
-Historisch wurden App-Name und Seitenleistentitel vereinheitlicht.
-Der heutige öffentliche Name D2HA Bridge wird erst mit 3.0.0 eingeführt.
+### Neu
 
 Die Verbindungsanzeige ist deutlich hervorgehoben: Grün bedeutet Dovit verbunden,
 Orange bedeutet Oberfläche erreichbar, aber Dovit nicht verbunden; Rot bedeutet,
@@ -772,7 +727,7 @@ deinen Textentwurf. Beim Neuladen mit ungespeichertem Text wird nachgefragt.
 4. Änderungen prüfen und bestätigen, bei Löschungen zusätzlich den Identitätswechsel.
 5. Für nächsten Start vormerken. Danach die Bridge selbst neu starten.
 
-In der lokalen Version 1.19 erscheint die Bestätigung erst nach erfolgreicher
+In dieser Version erscheint die Bestätigung erst nach erfolgreicher
 Prüfung. Laden und Formatieren liegen im aufklappbaren Bereich "Werkzeuge";
 die technischen Änderungsdetails sind ebenfalls aufklappbar. Nach einer
 Textänderung wird die alte Bestätigung ausgeblendet und erneut geprüft.
@@ -817,7 +772,7 @@ Status-, Text-, Auslösungs- und Befehls-Statetype aus bestätigten Mitschnitten
 Die Zuordnung wird erst beim Neustart nach Sicherung übernommen.
 Bestehende Alarm-Partitionen bleiben geschützt; es gibt keine Alarm-Teststeuerung.
 
-### Neu in 1.16
+### Neu
 
 Bekannte Geräte sind nach Kategorien gruppiert. Das Zahnrad öffnet die
 Geräteverwaltung; unbekannte Endpunkte bleiben separat. Suche, Kategorie und
@@ -829,8 +784,7 @@ Browser-Uhr. Der Empfangszeitpunkt zeigt, wie alt die Meldung ist. Im Verlauf
 bleibt der Rohwert sichtbar. Datum und Zeitzone werden nicht abgeleitet.
 Die Uhr ist schreibgeschützt und wird nicht als neue HA-Entität veröffentlicht.
 
-
-## Binäre Schalter in 2.2
+## Binäre Schalter
 
 Im Geräteeditor „Schalter“ auswählen, den eigenen Dovit-Endpunkt prüfen und für
 den nächsten Bridge-Start vormerken. Rein fiktives Beispiel: ID 1234, Statetype 0,

@@ -1,12 +1,12 @@
 name: D2HA Bridge
-version: "3.1.0"
+version: "3.1.1"
 ingress: true
 ingress_port: 8099
 panel_icon: mdi:bridge
 panel_title: D2HA Bridge
 panel_admin: true
 slug: d2ha_bridge
-description: Dovit TCP/XML to MQTT bridge; version 3.1 requires migration from the old app
+description: Experimental MQTT bridge for Home Assistant; use at your own risk
 url: https://github.com/SPRuben/d2ha-bridge
 stage: experimental
 image: ghcr.io/spruben/d2ha-bridge

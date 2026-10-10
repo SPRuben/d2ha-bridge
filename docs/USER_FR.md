@@ -1,6 +1,6 @@
 # Guide utilisateur - D2HA Bridge
 
-> Tutorial images: historical 2.0 screenshots using simulated data and the former branding; workflows are retained, but these do not show 3.0.0 or a live installation.
+**Version expérimentale 3.1.1 : erreurs possibles, utilisation à vos risques. La compatibilité avec toutes les versions du serveur Dovit est inconnue. Après un redémarrage, l’alarme peut rester indisponible dans HA/HomeKit faute de nouvelles valeurs du serveur ; cette limite n’est pas corrigée.**
 
 Utilisation non commerciale du logiciel inchangé : gratuite. Les modifications
 du logiciel ou de ses documents et l’usage commercial exigent une permission
@@ -8,20 +8,9 @@ du logiciel ou de ses documents et l’usage commercial exigent une permission
 Vos propres réglages et affectations sont autorisés et restent vos données.
 Licence : https://github.com/SPRuben/d2ha-bridge/blob/main/LICENSE
 
-D2HA Bridge is an independent, unofficial community project. It is not affiliated with, endorsed by, or sponsored by Dovit or RISCO Group. Dovit and related marks are the property of their respective owners.
+D2HA Bridge is an independent, unofficial community project.
 
-## Découvrir 2.2 : Appareils, Configuration et Diagnostic
-
-Ce guide décrit le code 2.2 dans le paquet public expérimental. Son installation
-depuis ce dépôt sur un nouveau HA et sa compatibilité avec d’autres installations
-Dovit ne sont pas encore confirmées en conditions réelles. Les anciennes notes
-sont conservées sous « Notes de versions historiques ».
-Guide d’installation : https://github.com/SPRuben/d2ha-bridge/blob/main/dovit_bridge/DOCS.md
-
-Les illustrations proviennent de la prévisualisation 2.0 avec des appareils
-simulés et des données de test. Elles aident à se repérer et ne prouvent ni une
-connexion à votre installation Dovit ni la réception des appareils dans HA/HomeKit.
-Les noms, ID et paramètres visibles sont des exemples.
+## Découvrir : Appareils, Configuration et Diagnostic
 
 Les trois espaces ont des fonctions distinctes :
 
@@ -47,8 +36,6 @@ Si aucun appareil de la maison n’est affecté, **Appareils** propose un accès
 encore un appareil domestique affecté. Si seuls une recherche ou un filtre de
 catégorie masquent les résultats, vérifiez le filtre sans créer une installation.
 
-![Vue des appareils avec le filtre Éclairages](images/devices-overview-fr.jpg)
-
 Vue des appareils : utiliser le filtre Éclairages pour comparer les noms et états d’exemple des éclairages.
 
 Sous **Diagnostic → Configuration et connexions**, Dovit, MQTT, les affectations
@@ -56,8 +43,6 @@ et la publication HA sont séparés. Cette vue lit l’état en cours ; elle ne 
 pas vos saisies non enregistrées ou en attente et ne change aucune option.
 Des états simulés, absents ou anciens ne prouvent pas une connexion réussie.
 Contrôlez toujours HA et Apple Home séparément.
-
-![Diagnostic avec les états Dovit et MQTT et la publication](images/diagnosis-fr.jpg)
 
 Diagnostic : lire séparément les connexions, les affectations et la publication pour identifier un problème de connexion.
 
@@ -70,7 +55,7 @@ lors du changement de vue.
 
 ## Pas à pas : de l’installation à la modification d’un appareil
 
-Ces étapes concernent le code 2.2. Une installation plus ancienne peut proposer
+Ces étapes concernent le fonctionnement actuel. Une installation plus ancienne peut proposer
 d’autres fonctions ou libellés. Les adresses et identifiants sont des exemples,
 pas les valeurs vérifiées de votre installation. Avant une mise à jour, sauvegarder
 les données et options réellement utilisées.
@@ -102,9 +87,6 @@ N’exposez pas les ports Dovit, MQTT ou de prévisualisation sur Internet.
 3. Actualiser le magasin, choisir D2HA Bridge et installer. Architectures publiques : amd64/aarch64. Arrêter l’ancien pont local avant toute migration ; ne jamais démarrer les deux ensemble. Les paramètres privés /data ne sont pas transférés automatiquement dans l’app du dépôt.
 4. Démarrer le broker et créer un utilisateur adapté à MQTT. Des exemples comme `mqtt-user` ne garantissent aucun accès.
 5. Dans Paramètres > Appareils et services, configurer l’intégration MQTT ou vérifier sa connexion. Le broker et l’intégration sont deux composants différents.
-
-3.0.0 est une préversion expérimentale du changement de marque en phase 1 ; elle utilise des images GHCR publiques et versionnées pour amd64/aarch64. Ingress reste sur le port interne 8099, sans port hôte. Le slug `local_dovit_bridge` reste inchangé. Les utilisateurs existants gardent la même app et leur dépôt déjà configuré ; une installation locale reste locale. La nouvelle URL ci-dessus concerne uniquement les nouvelles installations. Sauvegarder HA et les données privées avant mise à jour. Détails : https://github.com/SPRuben/d2ha-bridge/blob/main/docs/MIGRATION_D2HA.md
-Documentation MQTT : https://www.home-assistant.io/integrations/mqtt
 
 ### 3. Définir les options de base avant le démarrage
 
@@ -184,8 +166,6 @@ ni Dovit ni MQTT et ne commande aucun appareil. Des modifications en attente
 peuvent bloquer la récupération. Redémarrer ensuite vous-même le pont.
 Dans le fonctionnement normal, ce n’est pas un bouton d’import JSON.
 
-![Assistant de récupération avec fichier, texte ou sauvegarde comme source](images/recovery-fr.jpg)
-
 Récupération : choisir votre propre source et la vérifier ; l’application vient après l’aperçu des appareils et votre confirmation.
 
 ### 5. Ouvrir la page et configurer en quatre étapes
@@ -201,15 +181,9 @@ Récupération : choisir votre propre source et la vérifier ; l’application v
 | **3 · Affectations** | **Voir les appareils** permet de contrôler ou compléter les affectations. Revenir ensuite à **Configuration** ; le brouillon de paramètres est conservé lors du changement de vue. Les appareils ont leur propre processus de validation et préparation. |
 | **4 · Publication** | Lire séparément votre choix `publish_discovery`, l’option `enable_discovery` inchangée ici et le résultat prévu. Vérifier, confirmer explicitement et choisir **Enregistrer pour le prochain redémarrage**. |
 
-![Configuration étape 1 avec l’adresse Dovit et le port TCP](images/setup-dovit-fr.jpg)
-
 Étape 1 · Dovit : saisir l’adresse et le port dans le brouillon local de paramètres.
 
-![Configuration étape 2 avec le mode MQTT automatique ou manuel](images/setup-mqtt-fr.jpg)
-
 Étape 2 · MQTT : choisir le mode adapté ; les paramètres de votre broker se renseignent en mode manuel.
-
-![Configuration étape 4 avec la publication et le récapitulatif](images/setup-publication-fr.jpg)
 
 Étape 4 · Publication : lire le choix et le récapitulatif avant d’enregistrer pour le prochain redémarrage.
 
@@ -264,8 +238,6 @@ Exemple : identifier une lumière et la nommer « Bureau lumière ».
 7. Redémarrer volontairement D2HA Bridge. Le fichier précédent est sauvegardé et la modification revérifiée avant application.
 8. Recharger la page et retrouver la lumière parmi les appareils connus ; avec publish_discovery activé, vérifier aussi HA sous MQTT.
 
-![Vérifier l’affectation : récapitulatif lisible et confirmation](images/device-assignment-fr.jpg)
-
 Vérifier l’affectation : contrôler les appareils concernés, les catégories et les noms dans le récapitulatif lisible avant de confirmer l’application.
 
 Une modification préparée n'est pas encore active. Une seule modification peut
@@ -318,8 +290,6 @@ retrouver le nom dans le JSON. Pour modifier le texte :
 2. Lire la liste compréhensible des changements et, si nécessaire, les **Détails techniques des modifications**. Confirmer après validation ; supprimer ou changer une identité exige un consentement supplémentaire.
 3. Choisir **Préparer pour le prochain démarrage**, redémarrer soi-même et vérifier le résultat sous **Appareils** et dans HA.
 
-![Vérification JSON avec la liste lisible des modifications et la confirmation](images/json-review-fr.jpg)
-
 Vérification JSON : contrôler les appareils concernés et leurs modifications dans la liste lisible, puis confirmer et préparer l’application.
 
 **Retour aux appareils** quitte JSON sans abandonner le brouillon de texte local.
@@ -359,7 +329,7 @@ Vérifier la restauration sur une copie sûre avant une urgence.
 Pour demander de l'aide, fournir version, ID/statetype et un court extrait de
 log horodaté. Retirer mots de passe, code d'alarme et données privées.
 
-## Statut des affectations et récupération (2.2)
+## Statut des affectations et récupération
 
 - **Observé :** Un signal a été reçu ; le type d’appareil reste inconnu.
 - **Déduit :** Une affectation `TODO_` provient de la détection existante et doit
@@ -423,7 +393,7 @@ pas que cette commande en est la cause. Sans réponse, vérifier avant de renvoy
 Aucun nouvel essai automatique ni envoi après reconnexion. Tests réels uniquement
 sur place et avec autorisation.
 
-Ce guide décrit le code 2.2 ; vérifier la version réellement installée dans HA.
+Ce guide décrit le fonctionnement actuel ; vérifier la version réellement installée dans HA.
 Sauvegarder vos propres données avant les mises à jour. Les notes historiques
 ne remplacent pas le parcours actuel de configuration.
 
@@ -711,11 +681,7 @@ automatique n’est enregistré et aucune ancienne entrée Discovery n’est sup
 Un appareil retiré peut donc rester visible dans HA ; son nettoyage est une
 étape séparée. La publication seule ne réécrit pas le fichier des appareils.
 
-La séparation entre recherche et publication est documentée depuis **1.19**
-et reste valable dans **2.2**. Cela ne confirme pas une installation ou une
-validation en conditions réelles du paquet public sur votre système HA.
-
-## Vue des appareils dans 2.2
+## Vue des appareils
 
 Les appareils connus affichent d’abord leur dernier état et, si disponible,
 son heure de réception dans le fuseau du navigateur. Ce n’est pas une preuve
@@ -739,17 +705,7 @@ Les alarmes restent protégées : aucune commande de test d’alarme.
 Les nouvelles affectations sont appliquées seulement après redémarrage du pont.
 Vérifier la version réellement installée et les entités reçues dans HA.
 
-## Notes de versions historiques (1.17 et 1.16)
-
-Les notes suivantes sont conservées comme historique du développement. Leurs
-anciens libellés et chemins ne décrivent pas le parcours actuel de 3.0.0. Les
-ajouts mentionnés pour 1.19 indiquent aussi leur origine historique, pas la version
-réellement installée dans HA. Utiliser le guide ci-dessus pour le parcours actuel.
-
-### Nouveautés de la version 1.17
-
-Historiquement, les titres de l’app et de la barre latérale ont été harmonisés.
-Le nom public actuel D2HA Bridge est introduit seulement avec 3.0.0.
+### Nouveautés de la
 
 L’indicateur vert signifie Dovit connecté, orange interface accessible mais
 Dovit déconnecté, rouge absence de données récentes provenant du pont.
@@ -768,7 +724,7 @@ Recharger avec un brouillon non enregistré demande confirmation.
 4. Confirmer les changements, et séparément les suppressions d’identités.
 5. Préparer pour le prochain démarrage, puis redémarrer le pont soi-même.
 
-Dans la version locale 1.19, la confirmation apparaît après validation.
+Dans cette version, la confirmation apparaît après validation.
 Recharger et formater se trouvent dans la section dépliable "Outils" ; les
 détails techniques des modifications sont aussi dépliables. Modifier le texte
 masque l'ancienne confirmation et exige une nouvelle validation.
@@ -811,7 +767,7 @@ le fichier. Un rôle libre exige un ID et les statetypes état, texte, déclench
 et commande confirmés par capture. Application au redémarrage après sauvegarde.
 Les partitions existantes restent protégées ; aucun test d’armement n’est proposé.
 
-### Nouveautés de la version 1.16
+### Nouveautés de la
 
 Les appareils connus sont regroupés par catégorie. L’icône d’engrenage ouvre la
 gestion ; les points de données inconnus restent séparés. Recherche, catégorie
@@ -823,8 +779,7 @@ horloge animée. L’horodatage indique quand le message a été reçu ; le jour
 conserve la valeur brute. Aucune date ni aucun fuseau horaire n’est déduit.
 L’horloge est en lecture seule et ne crée pas de nouvelle entité HA.
 
-
-## Interrupteurs binaires dans 2.2
+## Interrupteurs binaires
 
 Dans l’éditeur, choisir « Interrupteur », vérifier votre propre point de données
 Dovit, puis préparer pour le prochain redémarrage. Exemple entièrement fictif :

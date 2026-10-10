@@ -323,7 +323,7 @@ function assertStepState(step){
   assert.match(messages.wizard_current_hint[column],column===0?/laufende Bridge.*Pflichtfelder.*keine Anfrage/:/passerelle en cours.*champs obligatoires.*sans envoyer de requête/);
   assert.match(messages.wizard_current_title[column],column===0?/nur lesen/:/lecture seule/);
  }
- assert.ok(html.includes('D2HA / 3.1.0'));assert.ok(html.includes('autocomplete="new-password"'));
+ assert.ok(html.includes('D2HA / 3.1.1'));assert.ok(html.includes('autocomplete="new-password"'));
  assert.doesNotMatch(html,/role="tab(?:list|panel)?"|id="(?:graphic|json)-tab"/,'No nested tabs that focus a hidden workspace');
  assert.match(html,/<section id="json-panel" aria-labelledby="json-title"/);
  assert.match(html,/<button id="json-return" type="button"/,'Native keyboard-operable return action');

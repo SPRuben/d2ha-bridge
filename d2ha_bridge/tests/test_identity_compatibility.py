@@ -1,4 +1,4 @@
-"""Phase 1 regressions against full discovery payloads captured before rebranding."""
+"""Regressions preserving complete discovery payloads and existing identities."""
 from copy import deepcopy
 import json
 from pathlib import Path
@@ -11,7 +11,7 @@ from dovit_bridge import mqtt_discovery
 from dovit_bridge.web_monitor import BRANDING_IMAGE_ROUTES, Monitor, make_server
 
 
-class RebrandCompatibilityTests(unittest.TestCase):
+class IdentityCompatibilityTests(unittest.TestCase):
     def test_complete_discovery_payloads_preserve_all_non_branding_fields(self):
         fixture = json.loads((Path(__file__).parent / 'fixtures/phase1_discovery.json').read_text(encoding='utf-8'))
         for case in fixture['cases']:

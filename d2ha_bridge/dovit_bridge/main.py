@@ -32,7 +32,7 @@ async def main():
         await run_setup_only(cfg, 'setup_storage_error' if str(error) == 'setup_storage_error' else 'invalid_configuration')
         return
     setup_logging((cfg.mqtt_user, cfg.mqtt_pass, cfg.alarm_code, os.environ.get('SUPERVISOR_TOKEN', '')))
-    LOGGER.info("D2HA Bridge starting version=3.1.0 timestamps=UTC")
+    LOGGER.info("D2HA Bridge starting version=3.1.1 timestamps=UTC")
     LOGGER.info('%s', f"Config: enable_discovery={cfg.enable_discovery}")
     LOGGER.info('%s', f"DEBUG: DEVICES_FILE={cfg.devices_file}")
     LOGGER.info('%s', f"DEBUG: COVER_POSITION_MODE={cfg.cover_position_mode}")

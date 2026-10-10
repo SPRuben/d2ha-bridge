@@ -1,9 +1,0 @@
-/* D2HA Phase 1: local assets/fonts only; existing controls and status colors remain. */
-:root{--ink:#1E293B;--paper:#FFFFFF;--accent:#3B82F6;--line:#E2E8F0;--surface:#FFFFFF;--muted:#64748B;--soft:#F1F5F9;--control-line:#64748B}
-body{background:radial-gradient(ellipse at top right,#E2E8F0,transparent 60%),var(--paper);color:var(--ink);font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif}
-h1,h2,#json-review h3{font-family:inherit}
-.brand-mark{width:48px;height:48px;object-fit:contain;flex:none}
-header .brand{background:var(--ink);border-bottom:3px solid #14B8A6;letter-spacing:0;white-space:nowrap}
-.product-name{font-weight:600;letter-spacing:0}
-button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline-color:var(--accent)}
-@media(max-width:600px){header.main-header{flex-wrap:wrap;gap:8px}.brand-mark{width:36px;height:36px}header.main-header .product-name{display:inline}.brand{padding:8px}header.main-header #connection{flex-basis:100%}}

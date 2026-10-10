@@ -27,7 +27,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        app: [dovit_bridge, d2ha_bridge]
+        app: [d2ha_bridge]
     env:
       PYTHONDONTWRITEBYTECODE: '1'
     steps:

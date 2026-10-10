@@ -1,19 +1,19 @@
 # Installation und Einrichtung / Installation and configuration
 
-Die öffentliche D2HA Bridge ist eine experimentelle Home-Assistant-App in Version 3.1.0 mit unverändertem 2.2-Protokoll-/MQTT-Verhalten. Sie verbindet einen kompatiblen Dovit-TCP/XML-Zugang mit MQTT. Die Verbindungskette lautet:
+Die öffentliche D2HA Bridge ist eine experimentelle Home-Assistant-App in Version 3.1.1. Sie verbindet einen kompatiblen Dovit-TCP/XML-Zugang mit MQTT. Die Verbindungskette lautet:
 
 **Dovit TCP/XML → D2HA Bridge → MQTT-Broker → HA-MQTT-Integration → optional HomeKit Bridge**
 
-Eine Installation dieses öffentlichen Repositorys auf einem neuen HA-System und die Kompatibilität mit anderen Dovit-Anlagen sind noch nicht live bestätigt. Die [Versionshinweise](CHANGELOG.md) unterscheiden die früheren Laufzeittests von diesem öffentlichen Paket.
+Eine Installation dieses öffentlichen Repositorys auf einem neuen HA-System und die Kompatibilität mit anderen Dovit-Anlagen sind noch nicht live bestätigt. Fehler sind möglich; Nutzung auf eigene Gefahr. Eine Kompatibilität mit jeder Dovit-Server-/Firmware-Version ist nicht nachgewiesen. Siehe [bekannte Grenzen](../docs/ALARM_STARTUP.md).
 
 **Nutzungsbedingungen:** Unveränderte nichtkommerzielle Nutzung ist kostenlos. Änderungen am Programm oder den Dokumenten und kommerzielle Nutzung benötigen vorher die schriftliche Erlaubnis des Rechteinhabers; erlaubte kommerzielle Nutzung und Vergütung werden separat vereinbart. Eigene Einstellungen und Gerätezuordnungen sind erlaubt und bleiben deine Daten. Die [LICENSE](../LICENSE) ist maßgeblich; eine [deutsche Erläuterung](../LICENCE_DE.md) ist enthalten. Es handelt sich um Source Available mit eigenen Bedingungen, nicht um eine freie Open-Source-Lizenz.
 
-D2HA Bridge is an independent, unofficial community project. It is not affiliated with, endorsed by, or sponsored by Dovit or RISCO Group. Dovit and related marks are the property of their respective owners.
+D2HA Bridge is an independent, unofficial community project.
 
 ## Deutsch: Voraussetzungen
 
 - Home Assistant OS mit Supervisor, App-Store und Administratorzugang. HA Container unterstützt diesen Installationsweg nicht.
-- Architektur `amd64` oder `aarch64`. `armv7` gehört zu älteren Entwicklungsbuilds und wird hier nicht angeboten.
+- Architektur `amd64` oder `aarch64`.
 - Erreichbarer Dovit-TCP/XML-Zugang. Port `6060` ist ein Beispiel aus der bisherigen Implementierung; Adresse, Port und Protokoll deiner Anlage prüfen. Es gibt keine Dovit-Benutzername-/Passwortoptionen für zusätzliche Authentifizierung.
 - Laufender MQTT-Broker und eine HA-MQTT-Integration, die denselben Broker verwendet. Die Bridge installiert weder den Broker noch die HA-Integration.
 - Eigene, geprüfte Zuordnungen oder eine tatsächlich neue Anlage ohne alte Zuordnungen. Niemals die IDs eines anderen Hauses übernehmen.
@@ -22,7 +22,7 @@ D2HA Bridge is an independent, unofficial community project. It is not affiliate
 
 1. Bei bestehender Bridge zuerst den Abschnitt **Migration** unten lesen und eigene Daten sichern.
 2. In HA **Einstellungen → Apps → App-Store → ⋮ → Repositories** öffnen. Ältere HA-Versionen verwenden die Bezeichnung „Add-ons“.
-3. `https://github.com/SPRuben/d2ha-bridge` hinzufügen, die Store-Liste aktualisieren, **D2HA Bridge, Version 3.1.0** auswählen und installieren (nach Veröffentlichung der vorgebauten Images). Version 3.1.0 lädt ein vorgebautes GHCR-Image für deine Architektur. Kein lokaler Build und keine manuelle Dateikopie sind nötig.
+3. `https://github.com/SPRuben/d2ha-bridge` hinzufügen, die Store-Liste aktualisieren, **D2HA Bridge, Version 3.1.1** auswählen und installieren (nach Veröffentlichung der vorgebauten Images). Version 3.1.1 lädt ein vorgebautes GHCR-Image für deine Architektur. Kein lokaler Build und keine manuelle Dateikopie sind nötig.
 4. Vor dem Start unter **Konfiguration** die eigene Dovit-Adresse und MQTT-Verbindung eintragen. `127.0.0.1` ist nur der neutrale, nicht eingerichtete Standard. MQTT-Benutzer/Passwort sind leer und müssen bei einem Broker mit Anmeldung ausgefüllt werden.
 5. Die neue App startet standardmäßig manuell. Nur nach Einrichtung bzw. abgeschlossener Migration starten und **Weboberfläche öffnen** wählen. Ingress ist der Zugang. Port 8099 bleibt im internen Container-Netz; es gibt keine Host-Portfreigabe und kein Hostnetz. Ausgehende TCP-Verbindungen nutzen die eigene Dovit-LAN-Adresse und den konfigurierten MQTT-Broker. `127.0.0.1` bezeichnet den Container selbst.
 
@@ -95,18 +95,18 @@ Namen und Bereiche anschließend in HA passend zuweisen. Neue Schalter schlagen 
 
 Zuerst die betreffenden Entitäten in HA prüfen. Danach die [HomeKit-Bridge-Integration](https://www.home-assistant.io/integrations/homekit/) einrichten und die tatsächlich vorhandenen gewünschten HA-Entitäten über deren Filter aufnehmen. Die D2HA Bridge erstellt keine separate direkte Apple-Home-Verbindung. Änderungen an HA-Namen/Bereichen oder ein erfolgreicher MQTT-Connect bestätigen keine HomeKit-Übernahme.
 
-## Deutsch: Migration von einer bisherigen Bridge
+## Deutsch: Bestehende Installation aktualisieren
 
-Version 3.1.0 verwendet die separate HA-App `slug: d2ha_bridge`. Die alte 3.0-App bleibt unverändert verfügbar. Ein Slugwechsel benötigt eine vollständige private Datenübernahme und kontrollierte Umschaltung; es ist keine Aktualisierung derselben App. MQTT-Identitäten, Mapping, Dateipfade und HomeKit-Bezüge bleiben erhalten.
-
-Bestehenden HA-Repository-Eintrag/Installationsquelle behalten. Vorher aktuelle vollständige HA-Sicherung prüfen und private Optionen, `/data` und tatsächliche Share-Dateien sichern. Alte App stoppen, neue App gestoppt installieren, privaten Offline-Transfer prüfen und nur eine Bridge starten. Niemals leeren Seed über eine vorhandene Hauszuordnung kopieren oder HomeKit/Discovery zurücksetzen. Vorgehen, Startschutz und Rückweg: [Phase-2-Migration 3.1](../docs/MIGRATION_3_1.md).
+Vorher eine aktuelle wiederherstellbare HA-Sicherung und die tatsächlichen privaten Optionen, `/data` sowie Share-Dateien sichern. Repository-Eintrag und Installationsquelle beibehalten. Der aktuelle Slug ist `d2ha_bridge`; ein Update derselben App erfordert keine neue Identität. Niemals einen leeren Seed über vorhandene Zuordnungen kopieren oder HA/MQTT/HomeKit zurücksetzen. Beim Sonderfall einer anderen App-Identität den [gesonderten Datenübernahmeweg](../docs/EXISTING_INSTALLATIONS.md) prüfen. Nur eine Bridge starten.
 
 ## English: Installation
+
+Experimental test release: errors are possible; use at your own risk. Compatibility with every Dovit server/firmware version is unknown.
 
 Unchanged noncommercial use is free under the [custom license](../LICENSE). Software/documentation changes and commercial use need prior written permission; commercial use and compensation require a separate agreement. Your configuration and device data are allowed and remain yours. No automatic fee is set.
 
 1. Use Home Assistant OS with Supervisor on `amd64` or `aarch64`. Home Assistant Container does not offer this app-store installation route. Have your own compatible Dovit TCP/XML endpoint and a working MQTT broker ready.
-2. Open **Settings → Apps → App store → ⋮ → Repositories**, add `https://github.com/SPRuben/d2ha-bridge`, refresh the store, and install the **D2HA Bridge 3.1.0** entry after its images are released. Version 3.1.0 downloads a prebuilt GHCR image for your architecture. Older HA versions call apps “add-ons”.
+2. Open **Settings → Apps → App store → ⋮ → Repositories**, add `https://github.com/SPRuben/d2ha-bridge`, refresh the store, and install the **D2HA Bridge 3.1.1** entry after its images are released. Version 3.1.1 downloads a prebuilt GHCR image for your architecture. Older HA versions call apps “add-ons”.
 3. Before starting, set your real Dovit host/port and MQTT connection. `127.0.0.1` is an unconfigured Dovit default; MQTT credentials are empty. Manual MQTT mode uses your broker details; optional `supervisor` mode obtains the available HA MQTT service. Configure HA's MQTT integration to use the same broker.
 4. Start and open the Ingress web interface. Port 8099 stays inside the app network, with no host-network mode or host port mapping. Dovit/MQTT connect outward to your configured endpoints; `127.0.0.1` refers to the container itself. The package includes no active device map. A missing/invalid `/share/dovit_devices.json` starts restricted recovery with no Dovit/MQTT connections.
 5. For a genuinely new installation, choose **Neue Installation vorbereiten** (or **Préparer une nouvelle installation** in French), validate the prepared empty mapping, review the summary and explicitly consent. For an existing home, upload/paste/select your own backup instead. Empty mappings and alarms require additional consent. Restart manually after applying; the recovery process remains restricted until then.
@@ -114,7 +114,7 @@ Unchanged noncommercial use is free under the [custom license](../LICENSE). Soft
 7. Keep `enable_discovery: false` for a controlled setup. Once your known mappings are checked, set `publish_discovery: true`, save and restart to publish them through MQTT discovery. Confirm the resulting entities in HA. An MQTT connection is not evidence that entities were imported or commands work.
 8. Optionally select those verified HA entities in Home Assistant's HomeKit Bridge integration. Web control defaults are off; HA/MQTT control is separate and may operate real devices.
 
-3.1.0 uses the separate `d2ha_bridge` HA app identity; the legacy 3.0 app remains available for rollback. Existing repository/local sources, MQTT identities and file paths stay unchanged. A complete private data transfer and single-bridge cutover are required; do not initialize an empty existing home, reset discovery or re-pair HomeKit. See [Phase 2 migration](../docs/MIGRATION_3_1.md). Live acceptance remains pending.
+Existing users keep their repository entry, installation source, private data and MQTT/HA/HomeKit identities. Do not initialize an empty existing home, reset discovery or re-pair HomeKit. A different app identity needs a checked private-data transfer; see [existing installations](../docs/EXISTING_INSTALLATIONS.md).
 
 ## Troubleshooting / Fehlerdiagnose
 
@@ -127,6 +127,7 @@ Unchanged noncommercial use is free under the [custom license](../LICENSE). Soft
 | MQTT disconnected | Correct mode, broker service/host, port, credentials, TLS certificate and protocol. |
 | Connected, but no HA entities | Same broker in HA MQTT integration, checked named mapping and discovery publication enabled; restart after saved configuration changes. |
 | Changed app option has no effect | Corresponding saved web override in `/data/dovit_setup.json` may take precedence. |
+| Alarm unavailable after restart | Some servers do not send initial alarm states; availability waits for fresh readings. This known limitation remains unresolved. See [alarm diagnostics](../docs/ALARM_STARTUP.md). |
 | HA entity unavailable | Dovit/MQTT transport and fresh state; a historical received value does not prove a current connection. |
 
 Use the integrated **Handbücher / Manuels** and **Diagnose / Diagnostic** views. When reporting a problem, share only redacted logs and configuration excerpts. Never publish MQTT passwords, alarm codes, private setup files or household mappings.

@@ -58,21 +58,17 @@ class ManualTests(unittest.TestCase):
             self.assertEqual((root.parent / 'docs' / name).read_bytes(),
                              (root / 'dovit_bridge' / 'manuals' / name).read_bytes(), name)
 
-    def test_real_bundled_tutorial_images_match_sources(self):
+    def test_real_bundled_manual_image_references_exist_and_match_sources(self):
+        import re
         root = Path(__file__).resolve().parents[1]
-        source = root.parent / 'docs' / 'images'
-        bundled = root / 'dovit_bridge' / 'manuals' / 'images'
-        names = {f'{stem}-{language}.jpg'
-                 for stem in ('devices-overview', 'setup-dovit', 'setup-mqtt', 'setup-publication',
-                              'device-assignment', 'diagnosis', 'json-review', 'recovery')
-                 for language in ('de', 'fr')}
-        self.assertEqual({path.name for path in source.glob('*.jpg')}, names)
-        self.assertEqual({path.name for path in bundled.glob('*.jpg')}, names)
-        for name in sorted(names):
-            with self.subTest(name=name):
-                content = (source / name).read_bytes()
-                self.assertTrue(content.startswith(b'\xff\xd8') and content.endswith(b'\xff\xd9'))
-                self.assertEqual((bundled / name).read_bytes(), content, name)
+        for name in ('USER_DE.md', 'USER_FR.md', 'DEVELOPER.md'):
+            manual = (root / 'dovit_bridge' / 'manuals' / name).read_text(encoding='utf-8')
+            for image in re.findall(r'!\[[^]]*\]\(images/([^)]+)\)', manual):
+                with self.subTest(manual=name, image=image):
+                    source = root.parent / 'docs' / 'images' / image
+                    bundled = root / 'dovit_bridge' / 'manuals' / 'images' / image
+                    self.assertTrue(source.is_file())
+                    self.assertEqual(bundled.read_bytes(), source.read_bytes())
 
     def test_explicit_routes_and_source_ip(self):
         for peer in ('127.0.0.1', '192.0.2.2'):

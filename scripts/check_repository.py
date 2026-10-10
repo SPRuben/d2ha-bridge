@@ -47,15 +47,15 @@ def release_notes(version):
 def check(inventory=None, notes=None, app='d2ha_bridge'):
     global APP
     APP = ROOT / app
-    legacy = app == 'dovit_bridge'
     config = load_yaml(APP / 'config.yaml')
     repository = load_yaml(ROOT / 'repository.yaml')
     version = config['version']
     require(re.fullmatch(r'\d+\.\d+\.\d+', version), 'Use a three-part version')
-    require(config['slug'] == ('local_dovit_bridge' if legacy else 'd2ha_bridge'),
-            'Incorrect legacy/Phase 2 app slug')
-    require(config['version'] == ('3.0.0' if legacy else '3.1.0'), 'Incorrect app release version')
-    require(config['boot'] == ('auto' if legacy else 'manual'), 'Incorrect app boot default')
+    require(config['slug'] == 'd2ha_bridge', 'Incorrect app identity')
+    require(config['version'] == '3.1.1', 'Incorrect app release version')
+    require(config['boot'] == 'manual', 'Incorrect app boot default')
+    app_definitions = sorted(path.parent.name for path in ROOT.glob('*/config.yaml'))
+    require(app_definitions == ['d2ha_bridge'], 'Only the current app may be advertised')
     require(config['name'] == config['panel_title'] == repository['name'] == 'D2HA Bridge',
             'Product names differ')
     require(config['panel_icon'] == 'mdi:bridge', 'Incorrect panel branding')
@@ -71,28 +71,14 @@ def check(inventory=None, notes=None, app='d2ha_bridge'):
             'Unexpected Supervisor permissions')
     require(config['stage'] == 'experimental', 'Live acceptance is still outstanding')
     options = config['options']
-    compatibility = json.loads((ROOT / 'scripts' / 'phase1_compatibility.json').read_text(encoding='utf-8'))
-    require((not legacy or config['slug'] == compatibility['slug']) and options == compatibility['options']
-            and config['schema'] == compatibility['schema'], 'Legacy options/slug/schema changed')
+    compatibility = json.loads((ROOT / 'scripts/compatibility_baseline.json').read_text(encoding='utf-8'))
+    require(options == compatibility['options'] and config['schema'] == compatibility['schema'],
+            'Existing option/schema contract changed')
     for name, digest in compatibility['protected_files'].items():
-        target = APP / Path(name).relative_to('dovit_bridge')
-        require(hashlib.sha256(target.read_bytes()).hexdigest() == digest,
-                'Protocol/storage/control behavior changed: ' + name)
-    phase2 = json.loads((ROOT / 'scripts/phase2_compatibility.json').read_text(encoding='utf-8'))
-    for name, digest in phase2['legacy_app_files'].items():
-        require(hashlib.sha256((ROOT / name).read_bytes()).hexdigest() == digest,
-                'Frozen 3.0 rollback app changed: ' + name)
-        if not legacy and name not in phase2['allowed_target_changes']:
-            target = APP / Path(name).relative_to('dovit_bridge')
-            require(hashlib.sha256(target.read_bytes()).hexdigest() == digest,
-                    'Unplanned target behavior/test/artwork change: ' + name)
-    if not legacy:
-        old_main = (ROOT / 'dovit_bridge/dovit_bridge/main.py').read_bytes()
-        require((APP / 'dovit_bridge/main.py').read_bytes() == old_main.replace(
-            b'version=3.0.0 timestamps=UTC', b'version=3.1.0 timestamps=UTC'), 'Startup behavior changed')
-        old_ui = (ROOT / 'dovit_bridge/dovit_bridge/web/index.html').read_bytes()
-        require((APP / 'dovit_bridge/web/index.html').read_bytes() == old_ui.replace(
-            b'D2HA / 3.0.0</span>', b'D2HA / 3.1.0</span>'), 'Web UI behavior changed')
+        reviewed = compatibility['reviewed_changes'].get(name)
+        expected = reviewed['sha256'] if reviewed else digest
+        require(hashlib.sha256((ROOT / name).read_bytes()).hexdigest() == expected,
+                'Unreviewed runtime/identity/test change: ' + name)
     artwork = json.loads((ROOT / 'docs/assets/branding/manifest.json').read_text(encoding='utf-8'))
     for name, entry in artwork.items():
         require(hashlib.sha256((ROOT / name).read_bytes()).hexdigest() == entry['sha256'],
@@ -201,6 +187,6 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--inventory', help='Write production SHA256 inventory outside the repository')
     parser.add_argument('--release-notes', help='Generate release notes directly from the current changelog')
-    parser.add_argument('--app', choices=['dovit_bridge', 'd2ha_bridge'], default='d2ha_bridge')
+    parser.add_argument('--app', choices=['d2ha_bridge'], default='d2ha_bridge')
     args = parser.parse_args()
     check(args.inventory, args.release_notes, args.app)

@@ -218,6 +218,20 @@ class Phase2MigrationTests(unittest.TestCase):
                     m.stage_bundle(self.bundle, self.root / 'new', m.encode(dict(self.target_info, **{key: value})))
                 self.assertFalse((self.root / 'new').exists())
 
+    def test_checked_patch_target_supported_unknown_target_refused(self):
+        self.export()
+        before = self.snapshot()
+        for version in ('3.1.2', '3.2.0', '4.0.0'):
+            with self.subTest(version=version):
+                with self.assertRaisesRegex(m.MigrationError, 'unexpected_app_version'):
+                    m.stage_bundle(self.bundle, self.root / 'new',
+                                   m.encode(dict(self.target_info, version=version)))
+                self.assertFalse((self.root / 'new').exists())
+        m.stage_bundle(self.bundle, self.root / 'new',
+                       m.encode(dict(self.target_info, version='3.1.1')))
+        self.assertTrue((self.root / 'new' / 'target' / 'options.json').is_file())
+        self.assertEqual(before, self.snapshot())
+
     def test_partial_staging_failure_leaves_source_and_destination_untouched(self):
         self.export()
         before = self.snapshot()
