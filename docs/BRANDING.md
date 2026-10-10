@@ -1,10 +1,10 @@
 # D2HA Bridge artwork
 
-The owner-supplied D2HA branding/migration pack provides these assets. PNG/SVG files are copied unchanged; no logo was invented. [Asset manifest](assets/branding/manifest.json) records source names and SHA256 hashes. Brand colors are navy `#1E293B`, blue `#3B82F6`, teal `#14B8A6`, light gray `#E2E8F0`, slate `#64748B` and white. The UI requests Inter with local system-font fallbacks; the pack contains no font file and no remote font is downloaded.
+The owner supplied these D2HA Bridge assets. PNG/SVG files are copied unchanged; no logo was invented. [Asset manifest](assets/branding/manifest.json) records source names and SHA256 hashes. Brand colors are navy `#1E293B`, blue `#3B82F6`, teal `#14B8A6`, light gray `#E2E8F0`, slate `#64748B` and white. The UI requests Inter with local system-font fallbacks; the pack contains no font file and no remote font is downloaded.
 
 ## Home Assistant app
 
-`icon.png` and `logo.png` are beside `config.yaml` in the existing app folder, as [HA expects](https://developers.home-assistant.io/docs/apps/configuration/). Supplied `@2x` variants are included. The legacy folder and slug remain unchanged for Phase 1. Images are presentation assets and do not affect bridge startup or device identity.
+`icon.png` and `logo.png` are beside `config.yaml` in `d2ha_bridge/`, as [HA expects](https://developers.home-assistant.io/docs/apps/configuration/). Supplied `@2x` variants are included. The asset manifest covers the current app definition. Images are presentation assets and do not affect bridge startup or device identity.
 
 Visual review found that the supplied small 250×100 HA `logo.png` clips the right edge of the word “Bridge”. It is retained unchanged as requested. A corrected owner-supplied export is recommended before final visual acceptance; the README logo and web icon do not have this issue.
 
@@ -27,12 +27,11 @@ hold_action:
   action: none
 ```
 
-This is optional manual dashboard setup. No existing dashboard/automation is replaced, and no HA files have been uploaded by this migration.
+This is optional manual dashboard setup. No existing dashboard/automation is replaced, and changes no existing dashboard or automation.
 
 ## Web interface
 
 Normal and recovery pages use the supplied icon and favicons through relative, same-origin paths compatible with Ingress. Routes are explicitly allowlisted, subject to the same TCP-peer guard. No generic static directory, external image/font request or new host port is introduced. Layout, controls and status/error meaning remain unchanged.
 
-Historical tutorial screenshots are labeled as 2.0 simulated captures. New screenshots should be captured after real 3.0.0 visual acceptance; historical images are not silently redrawn.
 
-D2HA Bridge is an independent, unofficial community project. It is not affiliated with, endorsed by, or sponsored by Dovit or RISCO Group. Dovit and related marks are the property of their respective owners.
+D2HA Bridge is an independent, unofficial community project.
